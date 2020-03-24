@@ -3,4 +3,5 @@ node_modules
 /public
 /mongo
 /Dockerfile
+/src/shared/public/json/s3.json
 /server.js

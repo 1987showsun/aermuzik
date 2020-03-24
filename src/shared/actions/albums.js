@@ -11,10 +11,9 @@ import apiURL      from './url';
 import { mv }      from './video';
 import { commentList } from './comment';
 
-export const albums = (pathname, query, data) => {
+export const albums = ({method="get", query={}, data={}}) => {
     return(dispatch) => {
 
-        const method     = 'get';
         const initQuery  = {
             current : 1,
             limit   : 30
@@ -132,15 +131,15 @@ export const ssrAlbumsInfo = (pathname,query={},data={}) => {
 
 export const ssrAlbums = (pathname,query={},data={}) => {
     return( dispatch ) => {
-        return albums(pathname, query, data)(dispatch);
+        return albums({query, data})(dispatch);
     }
 }
 
-const Axios = ( api ) => {
+const Axios = ({method='get', url='', data={}}) => {
     return axios({
-        method   : api['method'],
-        url      : api['url'],
-        data     : api['data'],
+        method   : method,
+        url      : url,
+        data     : data,
         headers:{
             authorization: typeof window !== 'undefined'? `Basic ${sessionStorage.getItem('jwtToken')}` : '',
         }
