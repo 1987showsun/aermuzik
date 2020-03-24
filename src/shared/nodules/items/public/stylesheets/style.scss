@@ -1,0 +1,311 @@
+.common-item-style{
+    width              : 100%;
+    position           : relative;
+    .figure-in{
+        width              : 100%;
+        display            : flex;
+        position           : relative;
+    }
+    .img{
+        width              : 100%;
+        display            : flex;
+        align-items        : center;
+        justify-content    : center;
+        position           : relative;
+        a{
+            width             : 100%;
+            height            : 100%;
+            display           : flex;
+            position          : absolute;
+            z-index           : 2;
+            transition        : background .3s;
+        }
+        img{
+            width             : 100%;
+            height            : 100%;
+            display           : block;
+        }
+        .img-tool{
+            visibility        : hidden;
+            opacity           : 0;
+            transition        : opacity .3s;
+        }
+        >span{
+            width             : 100%;
+        }
+        @media (min-width: 420px) {
+            &:hover{
+                .img-tool{
+                    visibility        : initial;
+                    opacity           : 1;
+                }
+                a{
+                    background        : rgba(0,0,0,.4);
+                }
+            }
+        }
+    }
+    figcaption{
+        width            : 100%;
+        padding          : 5px 5px 5px 5px;
+        display          : flex;
+        flex-direction   : column;
+        flex-wrap        : wrap;
+        white-space      : nowrap;
+        overflow         : hidden;
+        text-overflow    : ellipsis;
+        a{
+            color             : #fff;
+        }
+        h3{
+            width             : 100%;
+            font-size         : 1.1rem;
+            margin-bottom     : 3px;
+            white-space       : nowrap;
+            overflow          : hidden;
+            text-overflow     : ellipsis;
+        }
+        h4{
+            font-size         : 0.9rem;
+            color             : #51535f;
+            a{
+                color             : #51535f;
+            }
+        }
+    }
+    @media (max-width: 420px) {
+        figcaption{
+            h3{
+                font-size         : 0.9rem;
+            }
+            h4{
+                font-size         : 0.7rem;
+            }
+        }
+    }
+}
+
+.album-item{
+    figcaption{
+        background       : #222433;
+        color            : #fff;
+    }
+}
+
+.artist-item{
+    figcaption{
+        padding          : 10px 5px;
+        position         : absolute;
+        z-index          : 2;
+        bottom           : 0px;
+        color            : #fff;
+        background       : -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
+        background       : -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+        background       : linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter           : progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+    }
+}
+
+.songs-item{
+    $w_1               : 50px;
+    $w_420             : 45px;
+    width              : 100%;
+    padding            : 10px 0px;
+    display            : flex;
+    border-bottom      : 1px solid #22263c;
+    >div{
+        margin-right       : 15px;
+        display            : inline-flex;
+        align-items        : center;
+        justify-content    : center;
+        flex-direction     : column;
+        color              : #fff;
+        img{
+            width             : 100%;
+            display           : block;
+        }
+        &:last-child{
+            margin-right     : 0px;
+        }
+        &.sort{
+            width            : $w_1;
+            min-width        : $w_1;
+            height           : $w_1;
+            font-size        : 1rem;
+            color            : #51535f;
+        }
+        &.img{
+            width            : $w_1;
+            min-width        : $w_1;
+            height           : $w_1;
+        }
+        &.desc{
+            width            : 100%;
+            align-items      : flex-start;
+            overflow         : hidden;
+            white-space      : nowrap;
+            text-overflow    : ellipsis;
+            h3{
+                width            : 100%;
+                margin-bottom    : 5px;
+                font-size        : 1rem;
+                cursor           : pointer;
+                user-select      : none;
+                overflow         : hidden;
+                white-space      : nowrap;
+                text-overflow    : ellipsis;
+            }
+            h4{
+                font-size        : 0.8rem;
+                a{
+                    color            : #51535f;
+                }
+            }
+        }
+        &.tool-wrap{
+            width            : $w_1;
+            min-width        : $w_1;
+            height           : $w_1;
+            .tool-select{
+                top: $w_1;
+            }
+        }
+    }
+    @media (min-width: 421px) {
+        &:hover{
+            background: #22263c;
+        }
+    }
+    @media (max-width: 420px) {
+        >div{
+            &.sort{
+                width            : $w_420;
+                min-width        : $w_420;
+                height           : $w_420;
+            }
+            &.img{
+                width            : $w_420;
+                min-width        : $w_420;
+                height           : $w_420;
+            }
+            &.desc{
+                h3{
+                    font-size        : 0.9rem;
+                    margin-bottom    : 2px;
+                }
+                h4{
+                    font-size        : 0.7rem;
+                }
+            }
+            &.tool-wrap{
+                width            : $w_420;
+                min-width        : $w_420;
+                height           : $w_420;
+                .tool-select{
+                    top:  $w_420;
+                }
+            }
+        }
+    }
+}
+
+.subNav-item{
+    width             : 100%;
+    height            : 45px;
+    display           : flex !important;
+    align-items       : center;
+    justify-content   : center;
+    color             : #fff;
+    cursor            : pointer;
+    user-select       : none;
+    a{
+        width             : 100%;
+        height            : 100%;
+        display           : flex;
+        align-items       : center;
+        justify-content   : center;
+        color             : #fff;
+        &.true{
+            background       : #f36;
+        }
+    }
+    @media (min-width: 421px) {
+        &:hover{
+            color             : #f36;
+            a{
+                color             : #f36;
+                &.true{
+                    color            : #fff;
+                }
+            }
+        }   
+    }
+}
+
+.video-item{
+    figcaption{
+        background       : #222433;
+        color            : #fff;
+    }
+}
+
+.message-item{
+    width             : 100%;
+    padding           : 10px 5px;
+    display           : flex;
+    flex-direction    : column;
+    color             : #fff;
+    border-bottom     : 1px solid #222433;
+    .message-head, .message-desc, .message-action{
+        width            : 100%;
+        display          : flex;
+        padding          : 5px;
+    }
+    .message-head{
+        height           : 35px;
+        align-items      : flex-end;
+        position         : relative;
+        h4{
+            font-size        : 1em;
+            display          : inline-flex;
+            margin-right     : 10px;
+        }
+        span{
+            &.date{
+                display      : inline-flex;
+                color        : #41495f;
+                font-size    : 0.8rem;
+            }
+        }
+    }
+    .message-desc{
+        flex-wrap        : wrap;
+        font-weight      : 400;
+        font-size        : 0.8rem;
+        color            : #aaa;
+        p{
+            width            : 100%;
+            margin-bottom    : 10px;
+            &:last-child{
+                margin-bottom     : 0px;
+            }
+        }
+    }
+
+    .tool-wrap{
+        width        : 35px;
+        height       : 35px;
+        position     : absolute;
+        right        : 0px;
+    }
+    &.no-data{
+        width             : 100%;
+        padding           : 30px 0px;
+        display           : flex;
+        justify-content   : center;
+        align-items       : center;
+        border-bottom     : none;
+        font-size         : 0.8rem;
+        color             : #3f4b6d;
+    }
+}

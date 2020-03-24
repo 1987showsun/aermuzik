@@ -1,0 +1,11 @@
+{
+    "zh-TW" : {
+        "subNav" : {
+            "chinese"    : "華語",
+            "cantonese"  : "粵語",
+            "korean"     : "韓語",
+            "western"    : "西洋",
+            "soundtrack" : "原聲帶"
+        }
+    }
+}

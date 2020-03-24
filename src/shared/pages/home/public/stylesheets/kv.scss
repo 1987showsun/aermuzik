@@ -1,0 +1,42 @@
+.kv-slide-wrap{
+    figure{
+        width           : 100%;
+        img{
+            width          : 100%;
+            display        : block;
+        }
+    }
+    .slick-arrow{
+        &.slick-prev{
+            left: 0px;
+        }
+        &.slick-next{
+            right: 0px;
+        }
+    }
+    .slick-dots{
+        bottom       : 0px;
+        >li{
+            width           : 45px;
+            height          : 3px;
+            margin-right    : 10px;
+            button{
+                background      : #ccc;
+            }
+            &:last-child{
+                margin-right    : 0px;
+            }
+            &.slick-active{
+                button{
+                    background      : #f36;
+                }
+            }
+        }
+    }
+}
+
+.kv-item{
+    span{
+        display: block !important;
+    }
+}

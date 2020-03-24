@@ -1,0 +1,42 @@
+.product-list-wrap{
+    width: 100%;
+    display: flex;
+    position: relative;
+    .list-ul{
+        width          : 100%;
+        padding        : 0px;
+        display        : flex;
+        flex-wrap      : wrap;
+        .noData{
+            width            : 100%;
+            min-height       : 80px;
+            display          : flex;
+            align-items      : center;
+            justify-content  : center;
+            font-size        : 0.9rem;
+            color            : #999;
+        }
+        &.RWD-1{
+            >figure{
+                width: 16.6666%;
+                padding: 5px;
+            }
+        }
+        &.RWD-2{
+            >figure{
+                width: 20%;
+            }
+        }
+        &.RWD-3{
+            >figure{
+                width: 33.333%;
+            }
+        }
+        &.RWD-4{
+            >figure{
+                width: 33.333%;
+                padding: 3px;
+            }
+        }
+    }
+}

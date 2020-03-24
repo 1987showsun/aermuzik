@@ -1,0 +1,81 @@
+.table-wrap{
+    width                      : 100%;
+    padding                    : 5px;
+    display                    : flex;
+    flex-wrap                  : wrap;
+    overflow                   : auto;
+    -webkit-overflow-scrolling : touch;
+    color                      : #fff;
+    .table{
+        width                      : 100%;
+        display                    : table;
+        border-collapse            : collapse;
+        .table-rows{
+            display                    : table-row;
+            &:nth-child(even){
+                background                 : #1a1f2e;
+            }
+            &.table-head{
+                background                 : #0b0f19;
+                border-bottom              : 2px solid #3e4c6f;
+            }
+            >div{
+                padding                    : 15px 5px;
+                display                    : table-cell;
+                font-size                  : 0.9rem;
+                vertical-align             : middle;
+                &.sort{
+                    width                  : 55px;
+                    text-align             : center;
+                }
+                &.date{
+                    width                  : 140px;
+                }
+                &.datetime{
+                    width                  : 200px;
+                }
+                &.action{
+                    width                  : 130px;
+                    position               : sticky;
+                    right                  : 0px;
+                    >ul{
+                        display                 : flex;
+                        justify-content         : flex-end;
+                        >li{
+                            display                 : inline-flex;
+                            margin-right            : 10px;
+                            &:last-child{
+                                margin-right           : 0px;
+                            }
+
+                        }
+                    }
+                }
+                button{
+                    width                  : 30px;
+                    height                 : 30px;
+                    min-height             : 30px;
+                    display                : flex;
+                    justify-content        : center;
+                    align-items            : center;
+                }
+                a{
+                    width                      : 100%;
+                    display                    : block;
+                    color                      : #fff;
+                }
+            }
+        }
+    }
+    >.table-rows{
+        width: 100%;
+        &.onData{
+            padding                    : 20px 5px;
+            font-size                  : 0.8rem;
+            text-align                 : center;
+            color                      : #404d6e;
+            background                 : #111;
+            user-select                : none;
+        }
+    }
+}

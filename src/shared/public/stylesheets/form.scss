@@ -1,0 +1,62 @@
+.other-login-button{
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+
+    &.fb{
+        background: cornflowerblue;
+    }
+}
+
+label{
+    &.checkbox{
+        width                 : 100%;
+        display               : flex;
+        align-items           : center;
+        .box{
+            width               : 20px;
+            height              : 20px;
+            margin-right        : 10px;
+            background          : #222;
+            border-radius       : 3px;
+            display             : flex;
+            align-items         : center;
+            justify-content     : center;
+            color               : #fff;
+            font-size           : 0.8rem;
+        }
+    }
+}
+
+input{
+    &[type=checkbox]{
+        &:checked{
+            &+label{
+                .box{
+                    background: #f36;
+                }
+            }
+        }
+    }
+}
+
+button{
+    appearance      : none;
+    width           : 100%;
+    border          : none;
+    color           : #fff;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    cursor          : pointer;
+    i{
+        display         : block;
+        margin          : 0px 10px;
+    }
+    &.folderAdd{
+        font-size       : 0.8rem;
+        border          : 1px dashed #333;
+        border-radius   : 3px;
+    }
+}

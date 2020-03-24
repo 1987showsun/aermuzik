@@ -1,0 +1,12 @@
+.login-wrap{
+    width             : 100%;
+    min-height        : 100%;
+    padding           : 50px 5% 50px 5%;
+    display           : flex;
+    align-items       : center;
+    justify-content   : center;
+    overflow: auto;
+    form{
+        max-width          : 420px;
+    }
+}

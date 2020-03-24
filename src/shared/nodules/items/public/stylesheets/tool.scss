@@ -1,0 +1,99 @@
+.tool-wrap{
+    position            : relative;
+    outline             : none;
+    .tool-switch{
+        width             : 100%;
+        height            : 100%;
+        display           : flex;
+        align-items       : center;
+        justify-content   : center;
+        cursor            : pointer;
+        user-select       : none;
+        &:hover{
+            color              : #f36;
+        }
+    }
+    .tool-select{
+        min-width         : 180px;
+        min-height        : 40px;
+        background        : #1d2335;
+        position          : absolute;
+        z-index           : 3;
+        right             : 0px;
+        box-shadow        : 0px 3px 3px rgba(0,0,0,.4);
+        display           : none;
+        ul{
+            width              : 100%;
+            display            : flex;
+            flex-direction     : column;
+            >li{
+                width             : 100%;
+                display           : flex;
+                align-items       : center;
+                font-size         : 0.8em;
+                cursor            : pointer;
+                user-select       : none;
+                &:hover{
+                    background       : #f36;
+                }
+                &.true{
+                    background       : #f36;
+                    color            : #fff;
+                }
+            }
+        }
+        i{
+            width                 : 35px;
+            min-width             : 35px;
+            height                : 35px;
+            display               : inline-flex;
+            align-items           : center;
+            justify-content       : center;
+        }
+    }
+    &.true{
+        .tool-switch{
+            box-shadow        : 0px 0px 3px rgba(0,0,0,.4);
+            background        : #1d2335;
+            border-radius     : 2px 2px 0px 0px;
+            color             : #f36;
+        }
+        .tool-select{
+            display           : block;
+        }
+    }
+}
+
+.img-tool{
+    display            : flex;
+    align-items        : center;
+    position           : absolute;
+    z-index            : 3;
+    color              : #fff;
+    >li{
+        width                : 35px;
+        height               : 35px;
+        display              : inline-flex;
+        align-items          : center;
+        justify-content      : center;
+        margin-right         : 10px;
+        border-radius        : 100px;
+        font-size            : 0.9rem;
+        cursor               : pointer;
+        user-select          : none;
+        &:nth-child(2){
+            padding              : 2px 0px 0px 2px;
+            border               : none;
+            border               : 1px solid #fff;
+        }
+        &:last-child{
+            margin-right          : 0px;
+        }
+        &.true{
+            color : rgb(255, 187, 0);
+            &.sub-tool{
+                background: #f36;
+            }
+        }
+    }
+}

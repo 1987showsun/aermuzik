@@ -1,0 +1,12 @@
+[
+    {
+        "id" : 1,
+        "path" : "/",
+        "name" : "About"
+    },
+    {
+        "id" : 2,
+        "path" : "/news",
+        "name" : "Wizard News"
+    }
+]
