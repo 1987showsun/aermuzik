@@ -13,7 +13,7 @@ const request           = require("request");
 const cheerio           = require("cheerio");
 
 //router
-const api               = require('./api');
+const api               = require('./nomal');
 const like              = require('./like');
 const user              = require('./user');
 const songs             = require('./songs');

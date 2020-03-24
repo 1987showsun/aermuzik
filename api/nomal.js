@@ -40,7 +40,7 @@ router.get('/kv', function(req, res, next) {
     res.json({
       total    : list.length,
       list     : list
-    })
+    });
   });
 });
 
