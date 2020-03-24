@@ -8,6 +8,7 @@ import queryString                                         from 'query-string';
 import toaster                                             from "toasted-notes";
 import { connect }                                         from 'react-redux';
 import { Link }                                            from 'react-router-dom';
+import { Helmet }                                          from "react-helmet";
 
 // Components
 import Nav                                                 from './components/nav';
@@ -35,23 +36,26 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            popupSwitch     : false,
-            navData         : ['chinese','cantonese','korean','western','soundtrack'],
-            list            : [],
-            jwtToken        : props.jwtToken
+            popupSwitch          : false,
+            navData              : ['chinese','cantonese','korean','western','soundtrack'],
+            list                 : [],
+            jwtToken             : props.jwtToken,
+            og                   : {
+                url                  : ""
+            }
         }
     }
 
     static getDerivedStateFromProps(props,state){
         return{
-            list            : props.list,
-            jwtToken        : props.jwtToken
+            list                 : props.list,
+            jwtToken             : props.jwtToken
         }
     }
 
     render(){
 
-        const { navData, list, popupSwitch } = this.state;
+        const { navData, list, popupSwitch, og } = this.state;
         const { location }                   = this.props;
         const { pathname, search }           = location;
         const lang                           = queryString.parse(search)['lang'] || 'chinese';
@@ -60,6 +64,10 @@ class Index extends React.Component{
 
         return(
             <>
+                <Helmet>
+                    <title>AERMUZIK - Albums</title>
+                    <meta property="og:url"                content={og['url']} />
+                </Helmet>
                 <div className="row"></div>
                 <div className="row">
                     <Nav location={location} data={navData}/>
@@ -92,7 +100,14 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        const { og } = this.state;
         this.callAPI();
+        this.setState({
+            og: { 
+                ...og,
+                url : window.location.href
+            }
+        })
     }
 
     componentDidUpdate(prevProps, prevState) {

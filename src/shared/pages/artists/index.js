@@ -6,7 +6,7 @@
 import React                                               from 'react';
 import { connect }                                         from 'react-redux';
 import queryString                                         from 'query-string';
-import toaster                                             from "toasted-notes";
+import { Helmet }                                          from "react-helmet";
 
 // Components
 import Nav                                                 from './components/nav';
@@ -31,8 +31,11 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            navData : ['chinese','cantonese','korean','western'],
-            list    : []
+            navData              : ['chinese','cantonese','korean','western'],
+            list                 : [],
+            og                   : {
+                url                  : ""
+            }
         }
     }
 
@@ -44,7 +47,7 @@ class Index extends React.Component{
 
     render(){
 
-        const { navData, list }  = this.state;
+        const { navData, list, og }  = this.state;
         const { location }       = this.props;
         const { pathname, search } = location;
         const lang         = queryString.parse(search)['lang'] || 'chinese';
@@ -53,6 +56,10 @@ class Index extends React.Component{
 
         return(
             <>
+                <Helmet>
+                    <title>AERMUZIK - Article</title>
+                    <meta property="og:url"                content={og['url']} />
+                </Helmet>
                 <div className="row"></div>
                 <div className="row">
                     <Nav location={location} data={navData}/>
@@ -70,7 +77,14 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        const { og }               = this.state;
         this.callAPI();
+        this.setState({
+            og: { 
+                ...og,
+                url : window.location.href
+            }
+        })
     }
 
     componentDidUpdate(prevProps, prevState) {

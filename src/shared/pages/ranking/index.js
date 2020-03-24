@@ -3,17 +3,18 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+import React                                               from 'react';
+import queryString                                         from 'query-string';
+import { connect }                                         from 'react-redux';
+import { Helmet }                                          from "react-helmet";
 
 // Components
-import Head    from './components/head';
-import Songs   from './components/songs';
-import Albums  from './components/albums';
+import Head                                                from './components/head';
+import Songs                                               from './components/songs';
+import Albums                                              from './components/albums';
 
 // Actions
-import { ssrRanking } from '../../actions/ranking';
+import { ssrRanking }                                      from '../../actions/ranking';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -27,16 +28,23 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            albumsRanking: ['chinese','japanese','korean','western','soundtrack']
+            albumsRanking: ['chinese','japanese','korean','western','soundtrack'],
+            og                   : {
+                url                  : ""
+            }
         }
     }
 
     render(){
 
-        const { albumsRanking } = this.state;
+        const { albumsRanking, og } = this.state;
 
         return(
             <>
+                <Helmet>
+                    <title>AERMUZIK - Ranking</title>
+                    <meta property="og:url"                content={og['url']} />
+                </Helmet>
                 <Head />
                 <Songs />
                 {
@@ -49,9 +57,16 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        const { og }               = this.state;
         const { location }         = this.props;
         const { pathname, search } = location;
         this.props.dispatch( ssrRanking( pathname,{...queryString.parse(search)},{}) );
+        this.setState({
+            og: { 
+                ...og,
+                url : window.location.href
+            }
+        })
     }
 }
 

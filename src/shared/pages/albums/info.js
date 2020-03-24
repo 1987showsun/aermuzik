@@ -4,7 +4,7 @@
  */
 import React                                               from 'react';
 import { connect }                                         from 'react-redux';
-import { Link }                                            from 'react-router-dom';
+import { Helmet }                                          from "react-helmet";
 
 // Components
 import Cover                                               from './components/cover';
@@ -45,7 +45,10 @@ class Info extends React.Component{
             mv                   : [],
             playlist             : [],
             comment              : [],
-            collectionsAlbums    : []
+            collectionsAlbums    : [],
+            og                   : {
+                url                  : ""
+            }
         }
     }
 
@@ -65,10 +68,18 @@ class Info extends React.Component{
     render(){
 
         const { location, commentId } = this.props;
-        const { playlist, info, collectionsAlbums, songs, otherAlbums, mv, comment, current_id, popupSwitch, popupType } = this.state;
+        const { playlist, info, collectionsAlbums, songs, otherAlbums, mv, comment, current_id, popupSwitch, popupType, og } = this.state;
 
         return(
             <>
+                <Helmet>
+                    <title>{`AERMUZIK - ${info['name']}`}</title>
+                    <meta property="og:url"                content={og['url']} />
+                    <meta property="og:type"               content="article" />
+                    <meta property="og:title"              content={`AERMUZIK - ${info['name']}`} />
+                    <meta property="og:description"        content={info['intro']} />
+                    <meta property="og:image"              content={info['cover']} />
+                </Helmet>
                 <Cover 
                     data        = {info}
                     collections = {{albums: collectionsAlbums}}
@@ -109,11 +120,18 @@ class Info extends React.Component{
     }
 
     componentDidMount() {
+        const { og }               = this.state;
         const { location, match }  = this.props;
         const { pathname, search } = location;
         const { id }               = match.params;
         this.props.dispatch( views(pathname,{id}) );
         this.callAPI();
+        this.setState({
+            og: { 
+                ...og,
+                url : window.location.href
+            }
+        })
     }
 
     componentDidUpdate(prevProps, prevState) {

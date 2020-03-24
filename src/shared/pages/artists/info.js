@@ -7,6 +7,7 @@ import toaster                                             from "toasted-notes";
 import queryString                                         from 'query-string';
 import { connect }                                         from 'react-redux';
 import { Link }                                            from 'react-router-dom';
+import { Helmet }                                          from "react-helmet";
 
 // Components
 import Cover                                               from './components/cover';
@@ -43,7 +44,10 @@ class Info extends React.Component{
             albums               : [],
             mv                   : [],
             playlist             : [],
-            comment              : []
+            comment              : [],
+            og                   : {
+                url                  : ""
+            }
         }
     }
 
@@ -61,10 +65,18 @@ class Info extends React.Component{
     render(){
 
         const { location, commentId } = this.props;
-        const { playlist, info, songs, albums, mv, comment, popupSwitch } = this.state;
+        const { playlist, info, songs, albums, mv, comment, popupSwitch, og } = this.state;
 
         return(
             <>
+                <Helmet>
+                    <title>{`AERMUZIK - ${info['name']||''}`}</title>
+                    <meta property="og:url"                content={og['url']} />
+                    <meta property="og:type"               content="article" />
+                    <meta property="og:title"              content={`AERMUZIK - ${info['name']}`} />
+                    <meta property="og:description"        content={info['intro']} />
+                    <meta property="og:image"              content={info['cover'] || ''} /> 
+                </Helmet>
                 <Cover 
                     type       = "artists"
                     data       = {info}
@@ -111,7 +123,14 @@ class Info extends React.Component{
     }
 
     componentDidMount() {
+        const { og }               = this.state;
         this.callAPI();
+        this.setState({
+            og: { 
+                ...og,
+                url : window.location.href
+            }
+        })
     }
 
     componentDidUpdate(prevProps, prevState) {
