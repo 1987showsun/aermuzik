@@ -2,7 +2,7 @@
  *   Copyright (c) 2020 
  *   All rights reserved.
  */
-
+import React                                               from 'react';
 import toaster                                             from "toasted-notes";
 import queryString                                         from 'query-string';
 
@@ -12,6 +12,7 @@ import { info }                                            from '../../actions/a
 import { collection }                                      from '../../actions/collection';
 import { onPlayer, singlePlay }                            from '../../actions/player';
 import { playlistFolder, playlistFolderExpand }            from '../../actions/member';
+
 
 export default (handleCallbackStatus, {jwtToken, dispatch, location, match, actionType, val}) => {
 

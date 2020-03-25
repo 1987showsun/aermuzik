@@ -22,7 +22,7 @@ const Index = ({ match, history, dispatch, name, total, list }) => {
     useEffect(()=>{
         if( id!=null ){
             const { id }       = match['params'];
-            dispatch( playlistDetail({data: { id: id }}) );
+            dispatch( playlistDetail({query: { id: id }}) );
         }
     },[id]);
 

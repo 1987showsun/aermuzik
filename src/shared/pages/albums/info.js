@@ -152,7 +152,6 @@ class Info extends React.Component{
     }
 
     callAction = ( actionType='', val={} ) => {
-        const setState = this.setState();
         const { dispatch, location, match, jwtToken }  = this.props;
 
         const handleCallbackStatus = (val) => {

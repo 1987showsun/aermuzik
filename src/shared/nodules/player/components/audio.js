@@ -6,19 +6,14 @@
 import React,{ useState, useEffect, useRef }  from 'react';
 import { connect }                    from 'react-redux';
 
-const Audio = ({current, audioStatus, actionType}) => {
+const Audio = ({loop, current, audioStatus, actionType, headleCurrentSong}) => {
 
     const audio       = useRef(null);
     const { _id }     = current;
-    const [ stateSongId , setSongId       ] = useState(null);
-    const [ stateCurrent, setStateCurrent ] = useState(current);
 
     useEffect(()=>{
-        //console.log('current',current);
-        setSongId( current['_id'] );
-        setStateCurrent(current);
-        const audioREF = audio['current'];
-        audioREF.src   = current.src;
+        const audioREF   = audio['current'];
+        audioREF.src     = current.src;
         audioREF.onloadeddata = () => {
 
             let status = {
@@ -29,7 +24,6 @@ const Audio = ({current, audioStatus, actionType}) => {
             };
 
             audioActionType( audioREF, actionType );
-            
             audioStatus(status);
 
             audioREF.onplay = () => {
@@ -49,12 +43,29 @@ const Audio = ({current, audioStatus, actionType}) => {
             }
 
             audioREF.onended = () => {
-                status = {
-                    ...status,
-                    currentTime : 0
+                const PL         = JSON.parse(sessionStorage.getItem('PL')) || [];
+                switch( loop ){
+                    case 2:
+                        audioREF.currentTime = 0;
+                        audioREF.play();
+                        break;
+
+                    default:
+                        let nextSong = PL.findIndex( item => String(item['_id'])==String(current['_id']))+1;
+                        nextSong = nextSong>=PL.length? 0 : nextSong;
+                        if( loop==1 ){
+                            audioREF.src = PL[nextSong]['src'];
+                            headleCurrentSong(PL[nextSong]);
+                        }else{
+                            if( nextSong==0 ){
+                                audioREF.pause();
+                            }else{
+                                audioREF.src = PL[nextSong]['src'];
+                                headleCurrentSong(PL[nextSong]);
+                            }
+                        }
+                        break;
                 }
-                audioREF.currentTime = status['currentTime'];
-                audioStatus(status);
             }
 
             audioREF.ontimeupdate  = () => {
@@ -65,13 +76,38 @@ const Audio = ({current, audioStatus, actionType}) => {
                 audioStatus(status);
             }
         }
-        // return ()=>{
-        //     setStateCurrent(current);
-        // }
     },[_id]);
 
+    useEffect(()=>{
+        const audioREF   = audio['current'];
+        audioREF.onended = () => {
+            const PL         = JSON.parse(sessionStorage.getItem('PL')) || [];
+            switch( loop ){
+                case 2:
+                    audioREF.currentTime = 0;
+                    audioREF.play();
+                    break;
+
+                default:
+                    let nextSong = PL.findIndex( item => String(item['_id'])==String(current['_id']))+1;
+                    nextSong = nextSong>=PL.length? 0 : nextSong;
+                    if( loop==1 ){
+                        audioREF.src = PL[nextSong]['src'];
+                        headleCurrentSong(PL[nextSong]);
+                    }else{
+                        if( nextSong==0 ){
+                            audioREF.pause();
+                        }else{
+                            audioREF.src = PL[nextSong]['src'];
+                            headleCurrentSong(PL[nextSong]);
+                        }
+                    }
+            }
+        };
+    },[loop]);
+
     return(
-        <audio ref={audio} controls={false} />
+        <audio ref={audio} controls={true} style={{ position: 'fixed', zIndex: 100 }}/>
     );
 }
 

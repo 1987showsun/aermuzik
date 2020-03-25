@@ -20,7 +20,7 @@ export default ({type="", current_id, onCancel}) => {
                 />
             );
 
-        case "unlogin":
+        case "unLogin":
             return (
                 <Unlogin 
                     onClick     = {onCancel}

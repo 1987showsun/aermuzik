@@ -5,15 +5,22 @@
 
 import React, { useState, useEffect }    from 'react';
 import { FontAwesomeIcon }               from '@fortawesome/react-fontawesome';
-import { faBackward, faPlay, faForward, faPause }from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faPlay, faForward, faPause, faUndo }from '@fortawesome/free-solid-svg-icons';
 
-export default ({audio, onplay}) => {
+export default ({audio, onplay, handleLoop}) => {
 
-    const [stateOnplay, setOnplay] = useState(onplay)
+    const [ stateOnplay, setOnplay     ] = useState(onplay);
+    const [ loopStatus , setLoopStatus ] = useState(0);
 
     useEffect(() => {
         setOnplay(onplay);
     },[onplay]);
+
+    useEffect(() => {
+        if( handleLoop!=undefined ){
+            handleLoop(loopStatus);
+        }
+    },[loopStatus]);
 
     const controlAction = (actionType) => {
         switch( actionType ){
@@ -23,6 +30,11 @@ export default ({audio, onplay}) => {
 
             case 'pause':
                 audio.pause();
+                break;
+
+            case 'loop':
+                const status = Number(loopStatus)+1>2? 0 : Number(loopStatus)+1;
+                setLoopStatus(status);
                 break;
         }
     }
@@ -39,6 +51,16 @@ export default ({audio, onplay}) => {
                     )
                 }
                 <li><button onClick={controlAction.bind(this,'next')}><FontAwesomeIcon icon={faForward}/></button></li>
+                <li>
+                    <button className={`loop status${loopStatus}`} onClick={controlAction.bind(this,'loop')}>
+                        <FontAwesomeIcon icon={faUndo}/>
+                        {
+                            loopStatus==2 && (
+                                <span className="on">1</span>
+                            )
+                        }
+                    </button>
+                </li>
             </ul>
         </div>
     );

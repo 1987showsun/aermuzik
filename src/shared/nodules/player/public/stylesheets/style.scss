@@ -104,6 +104,29 @@
         >li{
             button{
                 border-radius     : 100px;
+                position          : relative;
+                .on{
+                    width            : 13px;
+                    height           : 13px;
+                    display          : flex;
+                    align-items      : center;
+                    justify-content  : center;
+                    font-size        : 0.4rem;
+                    background       : #fff;
+                    position         : absolute;
+                    bottom           : 20%;
+                    right            : 20%;
+                    color            : #000;
+                    border-radius    : 100px;
+                }
+                &.loop{
+                    &.status0{
+                        opacity: 0.7;
+                    }
+                    &.status1,&.status2{
+                        color: #f36;
+                    }
+                }
             }
             &:nth-child(2){
                 button{
