@@ -5,9 +5,9 @@
 
 import React, { useState, useEffect }    from 'react';
 import { FontAwesomeIcon }               from '@fortawesome/react-fontawesome';
-import { faBackward, faPlay, faForward, faPause, faUndo }from '@fortawesome/free-solid-svg-icons';
+import { faRandom, faBackward, faPlay, faForward, faPause, faUndo }from '@fortawesome/free-solid-svg-icons';
 
-export default ({audio, onplay, handleLoop}) => {
+export default ({audio, current, onplay, handleLoop, headleChange}) => {
 
     const [ stateOnplay, setOnplay     ] = useState(onplay);
     const [ loopStatus , setLoopStatus ] = useState(0);
@@ -23,6 +23,18 @@ export default ({audio, onplay, handleLoop}) => {
     },[loopStatus]);
 
     const controlAction = (actionType) => {
+        
+        let currentInfo  = {};
+        let currentIndex = 0;
+        const searchCurrentInfo = () => {
+            const PL = JSON.parse(sessionStorage.getItem('PL')) || [];
+            return {
+                PL           : PL,
+                PLLength     : PL.length,
+                currentIndex : PL.findIndex( item => String(item['_id'])==String(current['_id']) )
+            };
+        }
+
         switch( actionType ){
             case 'play':
                 audio.play();
@@ -30,6 +42,24 @@ export default ({audio, onplay, handleLoop}) => {
 
             case 'pause':
                 audio.pause();
+                break;
+
+            case 'prev':
+                currentInfo  = searchCurrentInfo();
+                currentIndex = currentInfo['currentIndex']-1;
+                if( currentIndex<0 ){
+                    currentIndex = currentInfo['PLLength']-1;
+                }
+                headleChange( currentInfo['PL'][currentIndex] );
+                break;
+
+            case 'next':
+                currentInfo  = searchCurrentInfo();
+                currentIndex = currentInfo['currentIndex']+1;
+                if( currentIndex>=currentInfo['PLLength'] ){
+                    currentIndex = 0;
+                }
+                headleChange( currentInfo['PL'][currentIndex] );
                 break;
 
             case 'loop':
@@ -42,6 +72,7 @@ export default ({audio, onplay, handleLoop}) => {
     return(
         <div className="audio-col audio-control">
             <ul className="control-ul">
+                <li><button onClick={controlAction.bind(this,'random')}><FontAwesomeIcon icon={faRandom}/></button></li>
                 <li><button onClick={controlAction.bind(this,'prev')}><FontAwesomeIcon icon={faBackward}/></button></li>
                 {
                     !stateOnplay? (

@@ -46,10 +46,12 @@ const Index = ({dispatch, current}) => {
                     <Cover
                         handleWindow = {(val)=>{ setWindowStatus(val) }}
                     />
-                    <Control 
+                    <Control
+                        current       = {current}
                         audio         = {stateAudioStatus['audio']} 
                         onplay        = {stateAudioStatus['onplay']}
                         handleLoop    = {(val) => setLoopStatus(val)}
+                        headleChange  = {(val) => dispatch( singlePlay('singlePlay',val) )}
                     />
                     <Tool />
                 </div>

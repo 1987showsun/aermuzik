@@ -107,7 +107,7 @@ const Audio = ({loop, current, audioStatus, actionType, headleCurrentSong}) => {
     },[loop]);
 
     return(
-        <audio ref={audio} controls={true} style={{ position: 'fixed', zIndex: 100 }}/>
+        <audio ref={audio} controls={false} style={{ position: 'fixed', zIndex: 100 }}/>
     );
 }
 

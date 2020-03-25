@@ -23,7 +23,7 @@ import { coverCrop, changeMemberCover } from '../../../actions/member';
 import dataURLtoFile                  from '../../../public/javascripts/dataURLtoFile';
 
 // Jsons
-import S3Config                       from '../../../public/json/s3.json';
+import S3Config                       from '../../../../../stting/s3.json';
 
 const Cover = ({ dispatch, coverCropBeforeSrc, coverCropAfterSrc, id, src, level, location }) => {
 
