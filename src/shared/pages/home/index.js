@@ -7,6 +7,7 @@ import React                                               from 'react';
 import queryString                                         from 'query-string';
 import { connect }                                         from 'react-redux';
 import { Helmet }                                          from "react-helmet";
+import io from 'socket.io-client';
 
 // Components
 import Kv          from './components/kv';
@@ -16,6 +17,8 @@ import Songs       from './components/songs';
 
 // Actions
 import { ssrHome, kv } from '../../actions/home';
+
+// const socket = io('http://localhost:4000');
 
 class Index extends React.Component{
 
@@ -34,6 +37,12 @@ class Index extends React.Component{
 
     render(){
         const { og } = this.state;
+
+        // socket.emit('getMessage', '只回傳給發送訊息的 client')
+        // socket.on('getMessage', msg => {
+        //     console.log(msg);
+        // })
+        
         return(
             <>
                 <Helmet>

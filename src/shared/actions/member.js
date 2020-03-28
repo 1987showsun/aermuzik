@@ -19,6 +19,7 @@ export const signIn = (pathname="", query={}, data={}) => {
 
         return Axios({method, url, data}).then(res => {
             const { token } = res['data'];
+            console.log( res.headers );
             sessionStorage.setItem('jwtToken', token);
             dispatch({
                 type      : "MEMBER_SIGNIN",

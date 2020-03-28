@@ -5,9 +5,10 @@
 
 const API_ADDRESS = () => {
     const { NODE_ENV } = process.env;
-    let API_PATH  = 'http://local.imsc.com/v1';
+    // let API_PATH  = 'http://local.aermuzik.com//v1';
+    let API_PATH  = 'http://localhost:3000/v1';
     if( NODE_ENV!="development" ){
-        API_PATH  = "http://local.imsc.com/v1";
+        API_PATH  = "https://local.imsc.com/v1";
         //API_PATH  = "http://172.20.10.3:3000/v1";
     }
     return API_PATH;

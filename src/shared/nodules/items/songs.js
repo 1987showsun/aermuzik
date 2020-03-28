@@ -11,7 +11,7 @@ import { faHeart, faPlus, faFolderPlus, faClock } from '@fortawesome/free-solid-
  // Components
  import Tool             from './components/tool';
 
-export default ({ data, playlist=[], callAction }) => {
+export default ({ data, playlist=[], className="", callAction }) => {
 
     const { idx, cover, name, album, album_id, _id, src } = data;
     const toolAction = (type) => {
@@ -25,7 +25,7 @@ export default ({ data, playlist=[], callAction }) => {
     },[playlist]);
 
     return(
-        <div className="songs-item">
+        <div className={`songs-item ${className}`}>
             <div className="sort">{idx!=undefined? (String(idx+1).length<2? `0${idx+1}`:idx+1):(null)}</div>
             <div className="img">
                 <img src={cover} alt={name} title="" />

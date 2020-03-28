@@ -2,7 +2,6 @@
  *   Copyright (c) 2019 
  *   All rights reserved.
  */
-
 const jwt               = require('jsonwebtoken');
 const guessbase_url     = 'mongodb://127.0.0.1:27017/music';
 const MongoClient       = require('mongodb').MongoClient;

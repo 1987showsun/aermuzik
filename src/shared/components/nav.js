@@ -20,7 +20,6 @@ import '../public/stylesheets/nav.scss';
 
 const Nav = ({dispatch ,member, jwtToken}) => {
 
-    const [ stateToken, setToken] = useState(null);
     const [ stateInfo , setInfo ] = useState({});
 
     useEffect(()=>{
@@ -28,9 +27,11 @@ const Nav = ({dispatch ,member, jwtToken}) => {
     },[jwtToken]);
 
     useEffect(()=>{
-        dispatch( info('',{},{}) ).then( res => {
-            setInfo( res['data']['info'] );
-        })
+        if( jwtToken!=null ){
+            dispatch( info('',{},{}) ).then( res => {
+                setInfo( res['data']['info'] );
+            })
+        }
     },[jwtToken]);
 
     useEffect(()=>{

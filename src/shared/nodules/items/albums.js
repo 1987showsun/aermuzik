@@ -42,8 +42,8 @@ export default ({data, handleAction}) => {
     },[]);
 
     return(
-        <figure className="common-item-style album-item">
-            <div ref={itemBlock} className="img" style={{height:itemH }}>
+        <figure ref={itemBlock} className="common-item-style album-item">
+            <div className="img" style={{height:itemH }}>
                 <Tool>
                     <li className={`sub-tool ${collectionStatus}`} onClick={handleTool.bind(this,'collectionAlbums',data)}><FontAwesomeIcon icon={faStar} /></li>
                     <li onClick={handleTool.bind(this,'fullplay')}><FontAwesomeIcon icon={faPlay} /></li>

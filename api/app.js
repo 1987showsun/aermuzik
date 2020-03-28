@@ -4,6 +4,7 @@
  */
 
 const express           = require('express');
+const cors              = require('cors');
 const app               = express();
 const path              = require('path');
 const cookieParser      = require('cookie-parser');
@@ -11,6 +12,9 @@ const bodyParser        = require('body-parser');
 const server            = require('http').createServer();
 const request           = require("request");
 const cheerio           = require("cheerio");
+const http              = require('http');
+const https             = require('https');
+const fs                = require('fs');
 
 //router
 const api               = require('./nomal');
@@ -24,21 +28,22 @@ const artists           = require('./artists');
 const playlist          = require('./playlist');
 const collection        = require('./collection');
 const comment           = require('./comment');
-const io                = require('socket.io')(server);
+
+const privateKey  = fs.readFileSync('./stting/server.key', 'utf8');
+const certificate = fs.readFileSync('./stting/server.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.all('*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
-  res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-  res.header("X-Powered-By",' 3.2.1')
-  if(req.method=="OPTIONS") res.send(200);
-  else  next();
-});
+app.use(cors({
+  origin                 : '*',
+  methods                : ["PUT","POST","GET","DELETE","OPTIONS"],
+  allowedHeaders         : ["Content-Type","Content-Length","Authorization","Accept","X-Requested-With"],
+  credentials            : true,
+  optionsSuccessStatus   : 200
+}));
 
 app.use('/v1/api'        , api         );
 app.use('/v1/like'       , like        );
@@ -52,15 +57,26 @@ app.use('/v1/comment'    , comment     );
 app.use('/v1/playlist'   , playlist    );
 app.use('/v1/collection' , collection  );
 
+const io = require('socket.io')(4000, {
+  path           : '/socket.io',
+  serveClient    : false,
+  pingInterval   : 10000,
+  pingTimeout    : 5000,
+  cookie         : false
+});
+
 // Socket test
-// io.on('connection', (socket)=>{
-//   console.log('a user connected');
-//   socket.emit('broadcast','socket emit test1');
-//   socket.on('broadcast', function(msg){
-//     console.log('--->',msg);
-//     console.log(`user disconnected ${msg}`);
-//   });
-// });
+io.on('connection', socket => {
+  //經過連線後在 console 中印出訊息
+  console.log('success connect!')
+  //監聽透過 connection 傳進來的事件
+  socket.on('getMessage', message => {
+      console.log( message );
+      //回傳 message 給發送訊息的 Client
+      socket.emit('getMessage', message)
+  })
+  socket.emit('getMessage', "33333");
+})
 
 // 爬蟲
 // request({
@@ -78,7 +94,12 @@ app.use('/v1/collection' , collection  );
 //   console.log( result );
 // });
 
+
+const httpServer  = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
 const port = 3000;
 
 app.listen(port, () => `Server running on port ${port}`);
 //server.listen(5001);
+// httpServer.listen(3000);
+//httpsServer.listen(3000);

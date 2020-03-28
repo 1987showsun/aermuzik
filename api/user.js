@@ -35,13 +35,11 @@ router.post('/signin', function(req, res, next) {
     const body = req.body;
 
     database.collection('user').find({ username, password }).toArray(function(err,data){
-
         if( data.length!=0 ){
             delete data[0]['password'];
-            res.json({
-                status : 200,
-                msg    : 'sign in suceesfully',
-                token  : `${ jwt.sign(data[0]," ") }`
+            const test = jwt.sign(data[0]," ");
+            res.cookie(test, { httpOnly: true }).json({
+                token  : test
             });
         }else{
             res.status(400).json({
@@ -93,6 +91,8 @@ router.post('/signup', function(req, res, next) {
 
 router.get('/info', ensureToken, function(req, res, next) {
 
+    console.log( req.cookies );
+
     const token = checkLoginStatus(req.token);
     if( token ){
         
@@ -119,6 +119,7 @@ router.get('/info', ensureToken, function(req, res, next) {
 });
 
 router.post('/otherSignin', function(req, res, next) {
+    
     let   body     = req.body;
     const method   = req.query['method'];
     const username = req.body['username'];
