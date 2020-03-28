@@ -23,10 +23,6 @@ const Nav = ({dispatch ,member, jwtToken}) => {
     const [ stateInfo , setInfo ] = useState({});
 
     useEffect(()=>{
-        setToken(jwtToken);
-    },[jwtToken]);
-
-    useEffect(()=>{
         if( jwtToken!=null ){
             dispatch( info('',{},{}) ).then( res => {
                 setInfo( res['data']['info'] );
