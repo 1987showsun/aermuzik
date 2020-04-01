@@ -10,7 +10,7 @@ const guessbase_url     = 'mongodb://127.0.0.1:27017/music';
 let   datetime          = new Date();
 let   database;
 
-MongoClient.connect(guessbase_url,{ useNewUrlParser: true }, function(err,client ) {
+MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: true }, function(err,client ) {
   database = client.db('music');
 });
 

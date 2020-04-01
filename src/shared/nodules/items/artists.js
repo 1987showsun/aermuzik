@@ -20,9 +20,13 @@ export default ({data}) => {
 
     useEffect(()=>{
         const itemResize = () => {
-            const { current } = itemBlock;
-            const item_w      = $(current).width();
-            setItemH( item_w*(6/4) );
+            let timer;
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                const { current } = itemBlock;
+                const item_w      = $(current).width();
+                setItemH( item_w*(6/4) );
+            }, 100);
         }
         itemResize();
         window.addEventListener('resize',itemResize);

@@ -39,7 +39,7 @@ class Login extends React.Component{
                 <ul>
                     <li>
                         <div className="input-box">
-                            <input type="text" name="username" value={username} onChange={this.handleChange.bind(this)} placeholder="Username (email)"/>
+                            <input type="email" name="username" value={username} onChange={this.handleChange.bind(this)} placeholder="Username (email)"/>
                         </div>
                     </li>
                     <li>

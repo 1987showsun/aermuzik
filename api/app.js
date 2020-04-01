@@ -57,26 +57,26 @@ app.use('/v1/comment'    , comment     );
 app.use('/v1/playlist'   , playlist    );
 app.use('/v1/collection' , collection  );
 
-const io = require('socket.io')(4000, {
-  path           : '/socket.io',
-  serveClient    : false,
-  pingInterval   : 10000,
-  pingTimeout    : 5000,
-  cookie         : false
-});
+// const io = require('socket.io')(5001, {
+//   path           : '/socket.io',
+//   serveClient    : false,
+//   pingInterval   : 10000,
+//   pingTimeout    : 5000,
+//   cookie         : false
+// });
 
 // Socket test
-io.on('connection', socket => {
-  //經過連線後在 console 中印出訊息
-  console.log('success connect!')
-  //監聽透過 connection 傳進來的事件
-  socket.on('getMessage', message => {
-      console.log( message );
-      //回傳 message 給發送訊息的 Client
-      socket.emit('getMessage', message)
-  })
-  socket.emit('getMessage', "33333");
-})
+// io.on('connection', socket => {
+//   //經過連線後在 console 中印出訊息
+//   console.log('success connect!')
+//   //監聽透過 connection 傳進來的事件
+//   socket.on('getMessage', message => {
+//       console.log( message );
+//       //回傳 message 給發送訊息的 Client
+//       socket.emit('getMessage', message)
+//   })
+//   socket.emit('getMessage', "33333");
+// })
 
 // 爬蟲
 // request({
@@ -97,7 +97,7 @@ io.on('connection', socket => {
 
 const httpServer  = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
-const port = 3000;
+const port = 3001;
 
 app.listen(port, () => `Server running on port ${port}`);
 //server.listen(5001);

@@ -10,7 +10,7 @@ const express           = require('express');
 const router            = express.Router();
 let   database;
 
-MongoClient.connect(guessbase_url,{ useNewUrlParser: true }, function(err,client ) {
+MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: true }, function(err,client ) {
     database = client.db('music');
 });
 

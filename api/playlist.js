@@ -13,7 +13,7 @@ const router            = express.Router();
 let   datetime          = new Date();
 let   database;
 
-MongoClient.connect(guessbase_url,{ useNewUrlParser: true }, function(err,client ) {
+MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: true }, function(err,client ) {
     database = client.db('music');
 });
 

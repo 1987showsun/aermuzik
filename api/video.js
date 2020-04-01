@@ -16,7 +16,7 @@ let   database;
 
 const milliseconds      = dayjs().valueOf();
 
-MongoClient.connect(guessbase_url,{ useNewUrlParser: true }, function(err,client ) {
+MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: true }, function(err,client ) {
     database = client.db('music');
 });
   
