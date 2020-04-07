@@ -6,7 +6,7 @@
 const API_ADDRESS = () => {
     const { NODE_ENV } = process.env;
     let API_PATH  = "https://api.aermuzik.com/v1";
-    if( NODE_ENV!="development" ){
+    if( NODE_ENV=="development" ){
         API_PATH  = 'http://localhost:3001/v1';
     }
     return API_PATH;
@@ -40,6 +40,8 @@ export default{
     },
     'member'  : {
         'signin'         : `${API_ADDRESS()}/user/signin`,
+        'otherSignin'    : `${API_ADDRESS()}/user/otherSignin`,
+        'signup'         : `${API_ADDRESS()}/user/signup`,
         'info'           : `${API_ADDRESS()}/user/info`,
         'albums'         : `${API_ADDRESS()}/user/collection/albums`,
         'songs'          : `${API_ADDRESS()}/user/collection/songs`,

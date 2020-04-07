@@ -66,10 +66,9 @@ router.post('/',ensureToken, function(req, res, next){
         })
     }else{
         
-        const { _id, name }           = loginStatus;
+        const { _id, nickname }       = loginStatus;
         const { type, type_id, text } = req['body'];
         const createtime              = dayjs().valueOf();
-        const { first, last }         = name;
 
         const getCommentList          = () => {
             database.collection('comment').find({ type: type, type_id: ObjectId(type_id) }).sort({'modifytime':1}).toArray(function(err,data){
@@ -100,7 +99,7 @@ router.post('/',ensureToken, function(req, res, next){
                             {
                                 _id         : ObjectId(),
                                 user_id     : ObjectId(_id),
-                                name        : `${first} ${last}`,
+                                name        : `${nickname}`,
                                 content     : text,
                                 reply       : [],
                                 modifytime  : createtime,
@@ -120,7 +119,7 @@ router.post('/',ensureToken, function(req, res, next){
                         {
                             _id         : ObjectId(),
                             user_id     : ObjectId(_id),
-                            name        : `${first} ${last}`,
+                            name        : `${nickname}`,
                             content     : text,
                             reply       : [],
                             modifytime  : createtime,

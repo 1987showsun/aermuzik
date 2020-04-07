@@ -28,7 +28,7 @@ const Head = ({dispatch, location, history, member}) => {
         setInfo({...member});
     },[member]);
 
-    const { _id="", name={ first:"", last:"" }, level="general", email="", tel="", cover="", username="" } = stateInfo;
+    const { _id="", nickname="", name={ first:"", last:"" }, level="general", email="", tel="", cover="", username="" } = stateInfo;
     const signOut = () => {
         const keys = Object.keys(sessionStorage);
         keys.map( key => {
@@ -49,7 +49,7 @@ const Head = ({dispatch, location, history, member}) => {
                     location = {location}
                 />
                 <figcaption>
-                    <h1>{`${name['last']} ${name['first']}`}</h1>
+                    <h1>{`${nickname}`}</h1>
                     <h2>{username}</h2>
                 </figcaption>
                 <ul className="head-action">

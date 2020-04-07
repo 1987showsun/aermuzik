@@ -3,14 +3,14 @@
  *   All rights reserved.
  */
 
-import React                from 'react';
-import queryString          from 'query-string';
-import { Link }             from 'react-router-dom';
-import { connect }          from 'react-redux';
-import FacebookLogin        from 'react-facebook-login/dist/facebook-login-render-props';
+import React                      from 'react';
+import queryString                from 'query-string';
+import { Link }                   from 'react-router-dom';
+import { connect }                from 'react-redux';
+import FacebookLogin              from 'react-facebook-login/dist/facebook-login-render-props';
 
 // Actions
-import { signIn }           from '../../../../actions/member';
+import { signIn, otherSignIn }    from '../../../../actions/member';
 
 class Login extends React.Component{
 
@@ -67,7 +67,7 @@ class Login extends React.Component{
                             fields     = "name,email,picture"
                             scope      = "public_profile,user_friends"
                             callback   = {this.responseFacebook.bind(this)}
-                            render={renderProps => (
+                            render     = {renderProps => (
                                 <button className="other-login-button fb" onClick={renderProps.onClick}>FACEBOOK LOGIN</button>
                             )}
                         />
@@ -82,7 +82,35 @@ class Login extends React.Component{
     }
 
     responseFacebook = ( response ) => {
-        console.log( 'responseFacebook',response );
+        const { location, history } = this.props;
+        const { pathname, search }  = location;
+        const { back=false }        = queryString.parse(search);
+        const { name, email, graphDomain, userID, picture } = response;
+        const data = {
+            username      : email,
+            nickname      : name,
+            otherUserId   : userID,
+            cover         : picture['data']['url'],
+            wayToRegister : graphDomain
+        }
+        this.props.dispatch( otherSignIn({ data }) ).then( res => {
+            this.setState({
+                msg : []
+            },()=>{
+                if( back ){
+                    history.goBack();
+                }else{
+                    history.push({
+                        pathname: '/myaccount'
+                    })
+                }
+            });
+        }).catch( err => {
+            const { msg } = err['response']['data'];
+            this.setState({
+                msg : [<div key={1}>{msg}</div>]
+            });
+        })
     }
 
     handleChange = (e) => {

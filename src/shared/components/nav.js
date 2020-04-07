@@ -61,7 +61,7 @@ const Nav = ({dispatch ,member, jwtToken}) => {
                         <span className="text">
                             {
                                 jwtToken!=null?(
-                                    `${stateInfo['name']!=undefined? (`${stateInfo['name']['last']} ${stateInfo['name']['first']}`):(null)}`
+                                    `${stateInfo['nickname']}`
                                 ):(
                                     "ACCOUNT"
                                 )

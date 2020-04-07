@@ -53,6 +53,11 @@ nav{
             }
             .text{
                 font-size: 0.6rem;
+                white-space: nowrap;
+                overflow: hidden;
+                display: block;
+                max-width: 100%;
+                text-overflow: ellipsis;
             }
         }
     }

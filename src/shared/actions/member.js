@@ -19,7 +19,6 @@ export const signIn = (pathname="", query={}, data={}) => {
 
         return Axios({method, url, data}).then(res => {
             const { token } = res['data'];
-            console.log( res.headers );
             sessionStorage.setItem('jwtToken', token);
             dispatch({
                 type      : "MEMBER_SIGNIN",
@@ -28,6 +27,38 @@ export const signIn = (pathname="", query={}, data={}) => {
             });
             return res;
         })
+    }
+}
+
+export const otherSignIn = ({ method='post', query={}, data={}  }) => {
+    return( dispatch ) => {
+        const initQuery  = {};
+        const search     = queryString.stringify({...initQuery, ...query});
+        const url        = `${apiURL['member']['otherSignin']}${search!=""? `?${search}`:''}`;
+
+        return Axios({method, url, data}).then(res => {
+            const { token } = res['data'];
+            sessionStorage.setItem('jwtToken', token);
+            dispatch({
+                type      : "MEMBER_SIGNIN",
+                jwtToken  : token,
+                info      : jwt.verify(token, ' '),
+            });
+            return res;
+        })
+    }
+}
+
+export const signUp = ({ method='post', query={}, data={} }) => {
+    return( dispatch ) => {
+        const initQuery  = {};
+        const search     = queryString.stringify({...initQuery, ...query});
+        const url        = `${apiURL['member']['signup']}${search!=""? `?${search}`:''}`;
+
+        return Axios({method, url, data}).then(res => {
+            console.log(res);
+            return res;
+        }).catch( err => err['response'] )
     }
 }
 

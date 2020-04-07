@@ -29,11 +29,22 @@ const checkLoginStatus = (token) => {
     return loginStatus;
 }
 
+const checkRequired = ({ formObject={}, required=[] }) => {
+    const checkRequired = required.filter( key => formObject[key].trim()=='');
+    if( checkRequired.length>0 ){
+        return{
+            status   : false,
+            unfilled : checkRequired,
+        }
+    }
+    return {
+        status : true,
+        msg    : 'complete'
+    }
+}
+
 router.post('/signin', function(req, res, next) {
-
     const { username, password } = req.body;
-    const body = req.body;
-
     database.collection('user').find({ username, password }).toArray(function(err,data){
         if( data.length!=0 ){
             delete data[0]['password'];
@@ -50,43 +61,135 @@ router.post('/signin', function(req, res, next) {
     });
 });
 
-router.post('/signup', function(req, res, next) {
+router.post('/otherSignin', function(req, res, next) {
 
-    let   body     = req.body;
-    const username = req.body.username;
+    const { username, otherUserId, nickname, gender="male", wayToRegister="noaml", tel="", zipCode="", city="", dist="", addres="", useLang="zh-TW", cover="" } = req.body;
+    const test = () => {
+        database.collection('user').find({ username, password: otherUserId }).toArray(function(err,data){
+            delete data[0]['password'];
+            const test = jwt.sign(data[0]," ");
+            res.cookie(test, { httpOnly: true }).json({
+                token  : test
+            });
+        });
+    }
 
-    database.collection('user').find({username:username}).toArray(function(err,userData){
-        if( userData.length!=0 ){
-            res.json({
-                code : 0,
-                msg  : 'This account already exists'
-            })
+
+    database.collection('user').find({ username, password: otherUserId }).toArray(function(err,data){
+        if( data.length>0 ){
+            test();
         }else{
-
-            delete body['pwdAgain'];
-            body = { ...body, level: "general", date: datetime.valueOf() }
-            if( !body.hasOwnProperty('cover') ){
-                body = { ...body,cover:'' }
-            }
-
-            database.collection('user').insert(body,(err,userResult)=>{
-                const userResultData = userResult['ops'][0];
-
+            database.collection('user').insert({
+                username      : username,
+                password      : otherUserId,
+                nickname      : nickname,
+                name          : {
+                    first       : "",
+                    last        : ""
+                },
+                gender        : gender,
+                tel           : tel,
+                zipCode       : zipCode,
+                city          : city,
+                dist          : dist,
+                addres        : addres,
+                useLang       : useLang,
+                wayToRegister : wayToRegister,
+                createdate    : dayjs().valueOf(),
+                modifydate    : 0
+            },(err, addUserData )=>{
+                const { insertedIds } = addUserData;
+                const addAfterUserId  = insertedIds['0'];
                 database.collection('collection').insert({
-                    user_id       : userResultData['_id'],
-                    album         : [],
-                    song          : [],
-                    listen_record : [],
-                    data          : datetime.valueOf()
-                },(err,collectionResult)=>{
-                    res.json({
-                        code : 1,
-                        msg  : 'Added successfully'
-                    })
+                    user_id       : ObjectId(addAfterUserId),
+                    albums        : [],
+                    songs         : [],
+                    listen_record : []
+                },(err, addCollection )=>{
+                    database.collection('usercover').insert({
+                        user_id       : ObjectId(addAfterUserId),
+                        bucket        : '',
+                        key           : '',
+                        filename      : '',
+                        src           : cover,
+                        createdate    : dayjs().valueOf(),
+                        modifydate    : 0
+                    },(err, addUserCover )=>{
+                        test();
+                    });
                 });
-            })
+            });
         }
     });
+});
+
+router.post('/signup', function(req, res, next) {
+
+    const required = ['username', 'password', 'checkPassword', 'nickname', 'gender'];
+    const { username, password, checkPassword, nickname, gender, tel, zipCode, city, dist, addres, useLang='zh-TW' } = req['body'];
+    const requiredResult       = checkRequired({formObject: req['body'], required});
+
+    if( requiredResult['status'] ){
+        database.collection('user').find({username:username}).toArray(function(err,data){
+            console.log( req['body'] );
+            if( data.length==0 ){
+                console.log('User name registered successfully');
+                database.collection('user').insert({
+                    username      : username,
+                    password      : password,
+                    nickname      : nickname,
+                    name          : {
+                        first       : "",
+                        last        : ""
+                    },
+                    gender        : gender,
+                    tel           : tel,
+                    zipCode       : zipCode,
+                    city          : city,
+                    dist          : dist,
+                    addres        : addres,
+                    useLang       : useLang,
+                    wayToRegister : 'nomal',
+                    createdate    : dayjs().valueOf(),
+                    modifydate    : 0
+                },(err, addUserData )=>{
+                    const { insertedIds } = addUserData;
+                    const addAfterUserId  = insertedIds['0'];
+                    database.collection('collection').insert({
+                        user_id       : ObjectId(addAfterUserId),
+                        albums        : [],
+                        songs         : [],
+                        listen_record : []
+                    },(err, addCollection )=>{
+                        database.collection('usercover').insert({
+                            user_id       : ObjectId(addAfterUserId),
+                            bucket        : '',
+                            key           : '',
+                            filename      : '',
+                            src           : '',
+                            createdate    : dayjs().valueOf(),
+                            modifydate    : 0
+                        },(err, addUserCover )=>{
+                            res.json({
+                                status_text: 'User name registered successfully'
+                            })
+                        });
+                    });
+                });
+            }else{
+                console.log('Account already exists');
+                res.status(400).json({
+                    status      : 400,
+                    status_text : 'account already exists'
+                })
+            }
+        });
+    }else{
+        res.status(400).json({
+            status      : 400,
+            status_text : 'incomplete'
+        })
+    }
 });
 
 router.get('/info', ensureToken, function(req, res, next) {

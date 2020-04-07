@@ -61,8 +61,6 @@ export default class Index extends React.Component{
                     className            = "crop-container"
                     ref                  = {this.cropper}
                     src                  = {src}
-                    // src                  = {"https://i.kfs.io/playlist/global/66279518v1/cropresize/300x300.jpg"}
-                    // src                  = {"https://i.kfs.io/article5/global/19,23372,1v2/original.png"}
                     aspectRatio          = {aspectRatio}
                     autoCropArea         = {1}
                     style                = {{ width: '100%',height:'100%'}}
@@ -71,7 +69,6 @@ export default class Index extends React.Component{
                     highlight            = {false}
                     dragCrop             = {false}
                     zoomOnWheel          = {false}
-                    //cropBoxMovable       = {false}
                     cropBoxResizable     = {false}
                     restore              = {false}
                     mouseWheelZoom       = {false}
