@@ -24,16 +24,18 @@ const Cover = (props) => {
         }
     }
 
+    const { cover='', album='', name='' } = stateCurrent;
+
     return(
         <div className="audio-col">
             <figure className="now-play-cover">
                 <div className="induction-zone" onClick={audioWindowStatus.bind(this)} />
-                <div className="img">
-                    <img src={stateCurrent['cover']} alt={stateCurrent['album']} title="" />
+                <div className={`img ${cover==''? 'null':''}`}>
+                    <img src={cover} alt={album} title="" />
                 </div>
                 <figcaption>
-                    <h3>{stateCurrent['name']}</h3>
-                    <h4><Link to="">{stateCurrent['album']}</Link></h4>
+                    <h3>{name==''? 'No song name':name}</h3>
+                    <h4><Link to="">{album==''? 'No album':album}</Link></h4>
                 </figcaption>
             </figure>
         </div>

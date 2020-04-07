@@ -70,6 +70,10 @@
                 width             : 100%;
                 display           : block;
             }
+            &.null{
+                border: 1px dashed #666;
+                border-radius: 4px;
+            }
         }
         figcaption{
             display          : inline-flex;
@@ -149,9 +153,11 @@
     }
 
     @media (max-width: 420px) {
+        max-width      : 180px;
         height         : 55px;
         flex-direction : column;
-        bottom         : 60px;
+        bottom         : 70px;
+        right          : 10px;
         transition     : bottom .1s, height .2s;
         .audioTool{
             display: none;
@@ -186,6 +192,7 @@
             }
             &.audio-control{
                 max-width: 130px;
+                display: none;
             }
         }
 
@@ -203,8 +210,10 @@
         }
 
         &.true{
+            max-width          : 100%;
             height             : 100%;
             bottom             : 0px;
+            right              : 0px;
             .audio-container{
                 flex-wrap         : wrap;
                 align-content     : center;
@@ -247,6 +256,10 @@
                     margin-bottom       : 20px;
                 }
                 figcaption{
+                    width: 100%;
+                    h3, h4{
+                        text-align: center;
+                    }
                     h3{
                         margin-bottom    : 2px;
                         font-size        : 1.3rem;
