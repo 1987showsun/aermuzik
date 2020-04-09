@@ -52,7 +52,11 @@ const Nav = ({dispatch ,member, jwtToken}) => {
                         <i>
                             {
                                 jwtToken!=null?(
-                                    <img src={stateInfo['cover']||''} alt="" title="" />
+                                    stateInfo['cover']!=''?(
+                                        <img src={stateInfo['cover']||''} alt={stateInfo['nickname']} title={stateInfo['nickname']} />
+                                    ):(
+                                        <FontAwesomeIcon icon={faUserCircle}/>
+                                    )
                                 ):(
                                     <FontAwesomeIcon icon={faUserCircle}/>
                                 )

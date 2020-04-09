@@ -68,7 +68,7 @@ class Login extends React.Component{
                             scope      = "public_profile,user_friends"
                             callback   = {this.responseFacebook.bind(this)}
                             render     = {renderProps => (
-                                <button className="other-login-button fb" onClick={renderProps.onClick}>FACEBOOK LOGIN</button>
+                                <button type="button" className="other-login-button fb" onClick={renderProps.onClick}>FACEBOOK LOGIN</button>
                             )}
                         />
                     </li>
