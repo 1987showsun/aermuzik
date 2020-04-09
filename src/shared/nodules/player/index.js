@@ -41,11 +41,12 @@ const Index = ({dispatch, current}) => {
                 headleCurrentSong = {val    => dispatch( singlePlay('singlePlay',val) )}
             />
             <div className={`audio-wrap ${stateWindow}`}>
-                <Timeline audioStatus={stateAudioStatus}/>
+                <Timeline className="pc" audioStatus={stateAudioStatus}/>
                 <div className="audio-container">
                     <Cover
                         handleWindow = {(val)=>{ setWindowStatus(val) }}
                     />
+                    <Timeline className="mobile" audioStatus={stateAudioStatus}/>
                     <Control
                         current       = {current}
                         audio         = {stateAudioStatus['audio']} 

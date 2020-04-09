@@ -4,8 +4,10 @@
  */
 
 import express                     from "express";
+import path                        from 'path';
 import cors                        from "cors";
 import React                       from "react";
+import logger                      from "morgan";
 import { matchRoutes }             from 'react-router-config';
 import { renderToString }          from "react-dom/server";
 import { Provider }                from "react-redux";
@@ -21,18 +23,11 @@ const app                          = express();
 
 app.use(cors());
 app.use(express.static("public"));
+app.use(logger('dev'));
+app.set('/views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-app.use('/site/404', (req, res, next) =>{
-  res.status(404);
-  next();
-});
-
-app.use('/site/502', (req, res, next) =>{
-  res.status(502);
-  next();
-});
-
-app.get('*', async function(req, res, next) {
+app.all('*', async function(req, res, next) {
 
   const { url, path, query } = req;
   const store                = configureStore();
@@ -79,12 +74,12 @@ app.get('*', async function(req, res, next) {
             ${helmet.title.toString()}
             ${helmet.meta.toString()}
             <link rel="stylesheet" href="/css/main.css">
-            <link rel="shortcut icon" href="/images/favicon.ico">
-            <link rel="apple-touch-icon" href="/images/app_logo.png" />
-            <link rel="apple-touch-icon" sizes="76x76" href="/images/app_logo.png" />
-            <link rel="apple-touch-icon" sizes="120x120" href="/images/app_logo.png" />
-            <link rel="apple-touch-icon" sizes="152x152" href="/images/app_logo.png" />
-            <link rel="manifest" href="/manifest.json">
+            <link rel="shortcut icon" href="/assets/images/favicon.ico">
+            <link rel="apple-touch-icon" sizes="512x512" href="/assets/images/appIcon512.png" />
+            <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/appIcon120.png" />
+            <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/appIcon114.png" />
+            <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/appIcon57.png" />
+            <link rel="manifest" href="/assets/manifest.json">
           </head>
 
           <body>
@@ -96,6 +91,16 @@ app.get('*', async function(req, res, next) {
       `);
     })
     .catch(next);
+});
+
+app.use('/site/404', (req, res, next) =>{
+  res.status(404);
+  next();
+});
+
+app.use('/site/502', (req, res, next) =>{
+  res.status(502);
+  next();
 });
 
 app.listen(process.env.PORT || 8081, () => {

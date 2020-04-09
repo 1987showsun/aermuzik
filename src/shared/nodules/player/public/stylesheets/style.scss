@@ -212,6 +212,7 @@
         &.true{
             max-width          : 100%;
             height             : 100%;
+            padding            : 15px;
             bottom             : 0px;
             right              : 0px;
             .audio-container{
@@ -237,8 +238,16 @@
                         }
                     }
                 }
+                &.audio-control{
+                    display             : inline-flex;
+                }
                 &:last-child{
                     margin-bottom       : 0px;
+                }
+            }
+            .timeline-wrap{
+                &.mobile{
+                    display: flex;
                 }
             }
             .now-play-cover{
@@ -249,9 +258,8 @@
                     visibility          : hidden;
                 }
                 .img{
-                    width               : 60%;
-                    max-width           : 220px;
-                    height              : auto;
+                    width               : 240px;
+                    height              : 240px;
                     margin-right        : 0px;
                     margin-bottom       : 20px;
                 }
@@ -333,27 +341,52 @@
 
 .timeline-wrap{
     width            : 100%;
-    height           : 15px;
-    display          : flex;
     align-items      : flex-end;
-    position         : absolute;
-    z-index          : 2;
-    top              : -15px;
-    left             : 0px;
     .timeLine{
         width            : 100%;
-        height           : 5px;
-        background       : rgba(0,0,0,.5);
         transition       : height .1s;
         .timeLine-schedule{
-            width: 20%;
-            height: 100%;
-            background: #f36;
+            width              : 0%;
+            height             : 100%;
         }
     }
-    &:hover{
-        .timeLine{
-            height           : 100%;
+    @media screen and (min-width: 421px){
+        height           : 15px;
+        position         : absolute;
+        z-index          : 2;
+        top              : -15px;
+        left             : 0px;
+        &.pc{
+            display          : flex;
+            .timeLine{
+                height           : 5px;
+                background       : rgba(0,0,0,.5);
+                .timeLine-schedule{
+                    background         : #f36;
+                }
+            }
+        }
+        &.mobile{
+            display          : none;
+        }
+        &:hover{
+            .timeLine{
+                height           : 100%;
+            }
+        }
+    }
+    @media screen and (max-width: 420px){
+        height           : 10px;
+        display          : none;
+        &.mobile{
+            margin-bottom: 35px;
+            .timeLine{
+                height           : 40%;
+                background       : rgba(255,255,255,.2);
+                .timeLine-schedule{
+                    background         : #fff;
+                }
+            }
         }
     }
 }

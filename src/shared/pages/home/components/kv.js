@@ -19,10 +19,12 @@ class Kv extends React.Component{
         this.state = {
             settings: {
                 className      : 'kv-slide-wrap',
+                autoplay       : true,
+                autoplaySpeed  : 5000,
                 dots           : true,
                 infinite       : true,
                 arrows         : false,
-                speed          : 500,
+                speed          : 1000,
                 slidesToShow   : 1,
                 slidesToScroll : 1
             },

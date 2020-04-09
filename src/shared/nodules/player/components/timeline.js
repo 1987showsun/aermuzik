@@ -6,7 +6,7 @@
 import $                   from 'jquery';
 import React, { useState, useEffect, useRef } from 'react';
 
-export default ({audioStatus}) => {
+export default ({className, audioStatus}) => {
 
     const timeLine                    = useRef(null);
     const [ scheduleW, setScheduleW ] = useState(0);
@@ -76,7 +76,7 @@ export default ({audioStatus}) => {
     },[audioStatus['duration']]);
 
     return(
-        <div ref={timeLine} className="timeline-wrap">
+        <div ref={timeLine} className={`timeline-wrap ${className}`}>
             <div className="timeLine">
                 <div className="timeLine-schedule" style={{width: `${scheduleW}%`}}></div>
             </div>

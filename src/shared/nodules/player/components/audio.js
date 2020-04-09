@@ -14,7 +14,7 @@ const Audio = ({loop, current, audioStatus, actionType, headleCurrentSong}) => {
     useEffect(()=>{
         const audioREF   = audio['current'];
         audioREF.src     = current.src;
-        audioREF.onloadeddata = () => {
+        audioREF.onloadedmetadata = () => {
 
             let status = {
                 audio       : audioREF,
