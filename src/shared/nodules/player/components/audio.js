@@ -51,18 +51,23 @@ const Audio = ({loop, current, audioStatus, actionType, headleCurrentSong}) => {
                         break;
 
                     default:
-                        let nextSong = PL.findIndex( item => String(item['_id'])==String(current['_id']))+1;
-                        nextSong = nextSong>=PL.length? 0 : nextSong;
-                        if( loop==1 ){
-                            audioREF.src = PL[nextSong]['src'];
-                            headleCurrentSong(PL[nextSong]);
-                        }else{
-                            if( nextSong==0 ){
-                                audioREF.pause();
-                            }else{
+                        if( PL.length>0 ){
+                            let nextSong = PL.findIndex( item => String(item['_id'])==String(current['_id']))+1;
+                            nextSong = nextSong>=PL.length? 0 : nextSong;
+                            if( loop==1 ){
                                 audioREF.src = PL[nextSong]['src'];
                                 headleCurrentSong(PL[nextSong]);
+                            }else{
+                                if( nextSong==0 ){
+                                    audioREF.pause();
+                                }else{
+                                    audioREF.src = PL[nextSong]['src'];
+                                    headleCurrentSong(PL[nextSong]);
+                                }
                             }
+                        }else{
+                            audioREF.currentTime = 0;
+                            audioREF.play();
                         }
                         break;
                 }
@@ -89,19 +94,25 @@ const Audio = ({loop, current, audioStatus, actionType, headleCurrentSong}) => {
                     break;
 
                 default:
-                    let nextSong = PL.findIndex( item => String(item['_id'])==String(current['_id']))+1;
-                    nextSong = nextSong>=PL.length? 0 : nextSong;
-                    if( loop==1 ){
-                        audioREF.src = PL[nextSong]['src'];
-                        headleCurrentSong(PL[nextSong]);
-                    }else{
-                        if( nextSong==0 ){
-                            audioREF.pause();
-                        }else{
+                    if( PL.length>0 ){
+                        let nextSong = PL.findIndex( item => String(item['_id'])==String(current['_id']))+1;
+                        nextSong = nextSong>=PL.length? 0 : nextSong;
+                        if( loop==1 ){
                             audioREF.src = PL[nextSong]['src'];
                             headleCurrentSong(PL[nextSong]);
+                        }else{
+                            if( nextSong==0 ){
+                                audioREF.pause();
+                            }else{
+                                audioREF.src = PL[nextSong]['src'];
+                                headleCurrentSong(PL[nextSong]);
+                            }
                         }
+                    }else{
+                        audioREF.currentTime = 0;
+                        audioREF.play();
                     }
+                    break;
             }
         };
     },[loop]);

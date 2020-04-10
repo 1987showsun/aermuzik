@@ -29,7 +29,7 @@ export default ({className='', stateWindow, audioStatus}) => {
         return() => {
             window.removeEventListener('resize',windowResize);
         }
-    },[stateWindow]);
+    },[stateWindow, audioStatus['audio']]);
 
     useEffect(() => {
         const volumeLineAction = () => {
