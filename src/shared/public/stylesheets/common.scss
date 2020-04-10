@@ -74,7 +74,7 @@ main{
     &.true{
         align-content: center;
     }
-    @media (max-width: 420px) {
+    @media (max-width: 720px) {
         padding-left       : 0px;
     }
 }
@@ -101,6 +101,10 @@ main{
         margin          : 0px;
         overflow        : hidden;
     }
+    @media (max-width: 720px) and (min-width: 421px) {
+        padding         : 0px 10px;
+        margin-bottom   : 30px;
+    }
     @media (max-width: 420px) {
         padding         : 0px 5px;
         margin-bottom   : 30px;
@@ -111,11 +115,13 @@ main{
     margin-right    : 20px;
     display         : inline-flex;
     flex-wrap       : wrap;
-    flex            : 1;
     &:last-child{
         margin-right     : 0px;
     }
-    @media (max-width: 420px) {
+    @media (min-width: 721px) {
+        flex            : 1;
+    }
+    @media (max-width: 720px) {
         margin-right    : 0px;
         margin-bottom   : 30px;
         &:last-child{
@@ -133,7 +139,7 @@ main{
         font-weight      : 400;
         color            : #f36;
     }
-    @media (max-width: 420px) {
+    @media (max-width: 720px) {
         h2{
             font-size        : 1rem;
         }

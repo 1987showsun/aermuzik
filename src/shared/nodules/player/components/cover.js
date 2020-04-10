@@ -18,18 +18,11 @@ const Cover = (props) => {
         }
     },[current]);
 
-    const audioWindowStatus = () => {
-        if( props.handleWindow!=undefined ){
-            props.handleWindow(true);
-        }
-    }
-
     const { cover='', album='', name='' } = stateCurrent;
 
     return(
-        <div className="audio-col">
+        <div className="audio-col audio-cover">
             <figure className="now-play-cover">
-                <div className="induction-zone" onClick={audioWindowStatus.bind(this)} />
                 <div className={`img ${cover==''? 'null':''}`}>
                     <img src={cover} alt={album} title="" />
                 </div>

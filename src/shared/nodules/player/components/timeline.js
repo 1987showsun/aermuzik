@@ -6,7 +6,7 @@
 import $                   from 'jquery';
 import React, { useState, useEffect, useRef } from 'react';
 
-export default ({className, audioStatus}) => {
+export default ({className='', audioStatus}) => {
 
     const timeLine                    = useRef(null);
     const [ scheduleW, setScheduleW ] = useState(0);

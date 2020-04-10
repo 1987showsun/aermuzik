@@ -1,304 +1,155 @@
-.audio-wrap{
-    width          : 100%;
-    height         : 70px;
-    padding        : 5px;
-    display        : flex;
-    flex-direction : column;
-    background     : #191d27;
-    position       : fixed;
-    z-index        : 10;
-    right          : 0px;
-    bottom         : 0px;
-    .audio-container{
-        width            : 100%;
-        height           : 100%;
-        display          : flex;
-        justify-content  : space-between;
-    }
-    .audio-col{
-        width           : 100%;
-        max-width       : 260px;
-        display         : inline-flex;
-        margin-right    : 10px;
-        >ul{
-            width               : 100%;
-            display             : flex;
-            align-items         : center;
-            >li{
-                display            : inline-flex;
-                margin-right       : 15px;
-                position           : relative;
-                &:last-child{
-                    margin-right: 0px;
-                }
-                button{
-                    width             : 40px;
-                    height            : 40px;
-                    justify-content   : center;
-                }
-            }
+.now-play-cover{
+    width             : 100%;
+    display           : flex;
+    position          : relative;
+    align-items       : center;
+    .img{
+        display          : inline-flex;
+        align-items      : center;
+        img{
+            width             : 100%;
+            display           : block;
         }
-        &:nth-child(2){
-            max-width       : none;
-        }
-        &:last-child{
-            margin-right    : 0px;
+        &.null{
+            border            : 1px dashed #666;
+            border-radius     : 4px;
         }
     }
-
-    .now-play-cover{
-        width              : 100%;
-        display            : flex;
-        position           : relative;
-        .induction-zone{
-            width       : 100%;
-            height      : 100%;
-            position    : absolute;
-            z-index     : 2;
-            top         : 0px;
-            left        : 0px;
-            visibility  : hidden;
-        }
-        .img{
-            width            : 60px;
-            min-width        : 60px;
-            height           : 60px;
-            display          : inline-flex;
-            align-items      : center;
-            margin-right     : 10px;
-            img{
-                width             : 100%;
-                display           : block;
-            }
-            &.null{
-                border: 1px dashed #666;
-                border-radius: 4px;
-            }
-        }
-        figcaption{
-            display          : inline-flex;
-            flex-direction   : column;
-            justify-content  : center;
-            text-overflow    : ellipsis;
+    figcaption{
+        width             : 100%;
+        flex-direction    : column;
+        justify-content   : center;
+        text-overflow     : ellipsis;
+        white-space       : nowrap;
+        overflow          : hidden;
+        h3{
+            width            : 100%;
+            margin-bottom    : 2px;
             white-space      : nowrap;
             overflow         : hidden;
-            h3{
-                width            : 100%;
-                margin-bottom    : 2px;
-                white-space      : nowrap;
-                overflow         : hidden;
-                text-overflow    : ellipsis;
-                font-size        : 1rem;
+            text-overflow    : ellipsis;
+            font-size        : 1rem;
+            color            : #fff;
+            a{
                 color            : #fff;
-                a{
-                    color            : #fff;
-                }
             }
-            h4{
-                font-size        : 0.9rem;
-                a{
-                    color            : #51535f;
-                }
+        }
+        h4{
+            font-size        : 0.8rem;
+            a{
+                color            : #51535f;
             }
         }
     }
+}
 
-    .control-ul{
+.timeline-wrap{
+    width            : 100%;
+    display          : flex;
+    align-items      : flex-end;
+    .timeLine{
+        width            : 100%;
+        transition       : height .1s;
+        .timeLine-schedule{
+            width              : 0%;
+            height             : 100%;
+        }
+    }
+}
+
+.volume-wrap{
+    width            : 100%;
+    display          : flex;
+    align-items      : center;
+    .volume-icon{
+        width           : 20px;
+        min-width       : 20px;
+        height          : 20px;
+        display         : inline-flex;
+        align-items     : center;
+        justify-content : center;
+        color           : #fff;
+        cursor          : pointer;
+        &:first-child{
+            margin-right: 10px;
+        }
+        &:last-child{
+            margin-left : 10px;
+        }
+    }
+    .volumeLine{
+        width           : 100%;
+        transition      : height .1s;
+        .volumeLine-schedule{
+            width              : 0%;
+            height             : 100%;
+        }
+    }
+}
+
+.audio-col{
+    width             : 100%;
+    display           : inline-flex;
+    >ul{
+        width               : 100%;
+        display             : flex;
+        align-items         : center;
         justify-content     : center;
         >li{
+            display            : inline-flex;
+            margin-right       : 15px;
+            position           : relative;
+            &:last-child{
+                margin-right: 0px;
+            }
             button{
-                border-radius     : 100px;
-                position          : relative;
-                .on{
-                    width            : 13px;
-                    height           : 13px;
-                    display          : flex;
-                    align-items      : center;
-                    justify-content  : center;
-                    font-size        : 0.4rem;
-                    background       : #fff;
-                    position         : absolute;
-                    bottom           : 20%;
-                    right            : 20%;
-                    color            : #000;
-                    border-radius    : 100px;
-                }
-                &.loop{
-                    &.status0{
-                        opacity: 0.7;
-                    }
-                    &.status1,&.status2{
-                        color: #f36;
-                    }
-                }
+                width             : 40px;
+                height            : 40px;
+                justify-content   : center;
             }
-            &:nth-child(3){
-                button{
-                    width         : 50px;
-                    height        : 50px;
-                    padding-left  : 3px;
-                    border        : 1px solid #fff;
-                    font-size     : 1.1rem;
-                }
-            }
-            
         }
     }
+}
 
-    .audioTool-ul{
-        justify-content: flex-end;
-        >li{
-
-        }
-    }
-
-    @media (max-width: 420px) {
-        max-width      : 180px;
-        height         : 55px;
-        flex-direction : column;
-        bottom         : 70px;
-        right          : 10px;
-        transition     : bottom .1s, height .2s;
-        .audioTool{
-            display: none;
-        }
-        .now-play-cover{
-            max-width          : 170px;
-            .induction-zone{
-                visibility       : inherit;
+.control-ul{
+    justify-content     : center;
+    >li{
+        button{
+            border-radius     : 100px;
+            position          : relative;
+            .on{
+                width            : 13px;
+                height           : 13px;
+                display          : flex;
+                align-items      : center;
+                justify-content  : center;
+                font-size        : 0.4rem;
+                background       : #fff;
+                position         : absolute;
+                bottom           : 20%;
+                right            : 20%;
+                color            : #000;
+                border-radius    : 100px;
             }
-            .img{
-                width            : 45px;
-                min-width        : 45px;
-                height           : 45px;
-                margin-right     : 10px;
-                img{
-                    width             : 100%;
-                    display           : block;
+            &.loop{
+                &.status0{
+                    opacity: 0.7;
+                }
+                &.status1,&.status2{
+                    color: #f36;
                 }
             }
         }
-        .audio-col{
-            margin-right: 5px;
-            >ul{
-                >li{
-                    margin-right: 5px;
-                    button{
-                        width         : 35px;
-                        height        : 35px;
-                        min-height    : 35px;
-                    }
-                }
-            }
-            &.audio-control{
-                max-width: 130px;
-                display: none;
+        &:nth-child(3){
+            button{
+                width         : 50px;
+                height        : 50px;
+                padding-left  : 3px;
+                border        : 1px solid #fff;
+                font-size     : 1.1rem;
             }
         }
-
-        .control-ul{
-            >li{
-                &:nth-child(3){
-                    button{
-                        width         : 35px;
-                        height        : 35px;
-                        padding-left  : 3px;
-                        font-size     : 0.8rem;
-                    }
-                }
-            }
-        }
-
-        &.true{
-            max-width          : 100%;
-            height             : 100%;
-            padding            : 15px;
-            bottom             : 0px;
-            right              : 0px;
-            .audio-container{
-                flex-wrap         : wrap;
-                align-content     : center;
-            }
-            .audio-col{
-                width             : 100%;
-                max-width         : none;
-                margin-right      : 0px;
-                margin-bottom     : 30px;
-                >ul{
-                    >li{
-                        margin-right: 15px;
-                        button{
-                            width         : 50px;
-                            height        : 50px;
-                            min-height    : 50px;
-                            font-size     : 1rem;
-                        }
-                        &:last-child{
-                            margin-right: 0px;
-                        }
-                    }
-                }
-                &.audio-control{
-                    display             : inline-flex;
-                }
-                &:last-child{
-                    margin-bottom       : 0px;
-                }
-            }
-            .timeline-wrap{
-                &.mobile{
-                    display: flex;
-                }
-            }
-            .now-play-cover{
-                max-width         : none;
-                flex-direction    : column;
-                align-items       : center;
-                .induction-zone{
-                    visibility          : hidden;
-                }
-                .img{
-                    width               : 240px;
-                    height              : 240px;
-                    margin-right        : 0px;
-                    margin-bottom       : 20px;
-                }
-                figcaption{
-                    width: 100%;
-                    h3, h4{
-                        text-align: center;
-                    }
-                    h3{
-                        margin-bottom    : 2px;
-                        font-size        : 1.3rem;
-                    }
-                    h4{
-                        font-size        : 1rem;
-                    }
-                }
-            }
-            .audio-control{
-                .control-ul{
-                    >li{
-                        &:nth-child(3){
-                            button{
-                                width         : 55px;
-                                height        : 55px;
-                                padding-left  : 3px;
-                                padding-top   : 1px;
-                                font-size     : 1.2rem;
-                            }
-                        }
-                    }
-                }
-            }
-            .audioTool{
-                display: flex;
-                .audioTool-ul{
-                    justify-content: center;
-                }
-            }
-        }
+        
     }
 }
 
@@ -339,35 +190,81 @@
     }
 }
 
-.timeline-wrap{
-    width            : 100%;
-    align-items      : flex-end;
-    .timeLine{
+.audio-wrap-pc{
+    width          : 100%;
+    height         : 70px;
+    padding        : 5px;
+    display        : flex;
+    flex-direction : column;
+    background     : #191d27;
+    position       : fixed;
+    z-index        : 10;
+    right          : 0px;
+    bottom         : 0px;
+    .audio-container{
         width            : 100%;
-        transition       : height .1s;
-        .timeLine-schedule{
-            width              : 0%;
-            height             : 100%;
+        height           : 100%;
+        display          : flex;
+        justify-content  : space-between;
+    }
+    .audio-col{
+        max-width       : 260px;
+        margin-right    : 10px;
+        &:nth-child(2){
+            max-width       : none;
+        }
+        &:last-child{
+            margin-right    : 0px;
         }
     }
-    @media screen and (min-width: 421px){
+
+    .now-play-cover{
+        .img{
+            width            : 60px;
+            min-width        : 60px;
+            height           : 60px;
+            margin-right     : 10px;
+        }
+        figcaption{
+            display          : inline-flex;
+            flex-direction   : column;
+            justify-content  : center;
+            text-overflow    : ellipsis;
+            white-space      : nowrap;
+            overflow         : hidden;
+            h3{
+                width            : 100%;
+                margin-bottom    : 2px;
+                white-space      : nowrap;
+                overflow         : hidden;
+                text-overflow    : ellipsis;
+                font-size        : 1rem;
+                color            : #fff;
+                a{
+                    color            : #fff;
+                }
+            }
+            h4{
+                font-size        : 0.9rem;
+                a{
+                    color            : #51535f;
+                }
+            }
+        }
+    }
+
+    .timeline-wrap{
         height           : 15px;
         position         : absolute;
         z-index          : 2;
         top              : -15px;
-        left             : 0px;
-        &.pc{
-            display          : flex;
-            .timeLine{
-                height           : 5px;
-                background       : rgba(0,0,0,.5);
-                .timeLine-schedule{
-                    background         : #f36;
-                }
+        left             : 0px;            
+        .timeLine{
+            height           : 5px;
+            background       : rgba(0,0,0,.5);
+            .timeLine-schedule{
+                background         : #f36;
             }
-        }
-        &.mobile{
-            display          : none;
         }
         &:hover{
             .timeLine{
@@ -375,18 +272,176 @@
             }
         }
     }
-    @media screen and (max-width: 420px){
-        height           : 10px;
-        display          : none;
-        &.mobile{
-            margin-bottom: 35px;
-            .timeLine{
-                height           : 40%;
-                background       : rgba(255,255,255,.2);
-                .timeLine-schedule{
-                    background         : #fff;
+
+    .audioTool-ul{
+        justify-content: flex-end;
+        >li{
+
+        }
+    }
+}
+
+.audio-wrap-mobile{
+    width             : 100%;
+    height            : 60%;
+    padding           : 5px;
+    display           : flex;
+    background        : #000;
+    border-bottom     : 1px solid #333;
+    position          : sticky;
+    z-index           : 10;
+    bottom            : 60px;
+    left              : 0px;
+    overflow          : hidden;
+    transition        : bottom .4s, height .6s;
+    .audio-wrap-mobile-head{
+        width             : 100%;
+        height            : 100%;
+        display           : flex;
+        align-items       : center;
+        justify-content   : center;
+        position          : absolute;
+        z-index           : 5;
+        top               : 0px;
+        left              : 0px;
+        cursor            : pointer;
+    }
+
+    .audio-col{
+        position          : relative;
+        z-index           : 2;
+        margin-bottom     : 0px;
+    }
+
+    .now-play-cover{
+        .img{
+            width               : 50px;
+            min-width           : 50px;
+            height              : 50px;
+            margin-right        : 10px;
+        }
+        figcaption{
+            display             : flex;
+            h3{
+                margin-bottom     : 3px;
+            }
+        }
+    }
+
+    .timeline-wrap{
+        height            : 10px;
+        display           : none;
+        margin-bottom     : 35px;
+        position          : relative;
+        z-index           : 2;
+        .timeLine{
+            height           : 40%;
+            background       : rgba(255,255,255,.2);
+            .timeLine-schedule{
+                background         : #fff;
+            }
+        }
+    }
+    .volume-wrap{
+        height            : 10px;
+        display           : none;
+        position          : relative;
+        z-index           : 2;
+        .volumeLine{
+            height           : 40%;
+            background       : rgba(255,255,255,.2);
+            .volumeLine-schedule{
+                background         : #fff;
+            }
+        }
+    }
+    .background-cover{
+        width               : 100%;
+        height              : 100%;
+        background-repeat   : no-repeat;
+        background-size     : cover;
+        background-position : center;
+        position            : absolute;
+        z-index             : 1;
+        top                 : 0px;
+        left                : 0px;
+        filter              : blur(10px);
+        opacity             : 0;
+        transition          : opacity .4s;
+    }
+    &.false{
+        .audio-control{
+            width          : 150px;
+            position       : relative;
+            z-index        : 6;
+            .control-ul{
+                >li{
+                    margin-right     : 5px;
+                    &:nth-child(1), &:nth-child(5){
+                        display        : none;
+                    }
+                    &:nth-child(4){
+                        margin-right   : 0px;
+                    }
+                    button{
+                        width          : 40px;
+                        height         : 40px;
+                        font-size      : 0.9rem;
+                        border         : none;
+                    }
                 }
             }
+        }
+    }
+    &.true{
+        width             : 100%;
+        height            : 100%;
+        flex-direction    : column;
+        align-items       : center;
+        justify-content   : center;
+        position          : fixed;
+        padding           : 50px 20px 20px 20px;
+        bottom            : 0px;
+        .audio-col{
+            margin-bottom     : 30px;
+            &:last-child{
+                margin-bottom    : 0px;
+            }
+        }
+        .now-play-cover{
+            justify-content   : center;
+            flex-direction    : column;
+            .img{
+                width               : 240px;
+                height              : 240px;
+                margin-bottom       : 20px;
+            }
+            figcaption{
+                h3{
+                    text-align        : center;
+                    margin-bottom     : 5px;
+                }
+                h4{
+                    text-align        : center;
+                }
+            }
+        }
+        .timeline-wrap, .volume-wrap{
+            display           : flex;
+        }
+        .audio-wrap-mobile-head{
+            height            : 30px;
+            &::before{
+                content                : "";
+                display                : block;
+                width                  : 50px;
+                height                 : 5px;
+                background             : rgba(255,255,255,.5);
+                border-radius          : 100px;
+            }
+        }
+        .background-cover{
+            opacity           : .4;
         }
     }
 }

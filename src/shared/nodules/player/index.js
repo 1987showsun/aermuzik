@@ -3,8 +3,9 @@
  *   All rights reserved.
  */
 
-import React,{ useState, useEffect }  from 'react';
+import React,{ useState, useEffect, useCallback }  from 'react';
 import { connect }                    from 'react-redux';
+import $ from 'jquery';
 
 // Components
 import Timeline                       from './components/timeline';
@@ -12,6 +13,7 @@ import Cover                          from './components/cover';
 import Control                        from './components/control';
 import Tool                           from './components/tool';
 import Audio                          from './components/audio';
+import Volume                         from './components/volume';
 
 // Actions
 import { singlePlay }                 from '../../actions/player';
@@ -22,16 +24,29 @@ import './public/stylesheets/style.scss';
 const Index = ({dispatch, current}) => {
 
     const [ stateWindow     , setWindowStatus     ] = useState(false);
-    const [ stateCurrent    , setStateCurrent     ] = useState({});
     const [ stateAudioStatus, setStateAudioStatus ] = useState({});
     const [ loopStatus      , setLoopStatus       ] = useState(0);
+    const [ changeAudioControl, setAudioControl   ] = useState('');
 
     useEffect(()=>{
-        setStateCurrent(current);
-        return ()=>{
-            setStateCurrent(current);
+        const windowResize = () => {
+            const body_w = $('body').width();
+            if( body_w>720 ){
+                setAudioControl('pc');
+            }else{
+                setAudioControl('mobile');
+            }
         }
-    },[current]);
+        windowResize();
+        window.addEventListener('resize',windowResize);
+        return() => {
+            window.removeEventListener('resize',windowResize);
+        }
+    },[]);
+
+    const unfold = () => {
+        setWindowStatus( stateWindow? false:true );
+    }
 
     return(
         <>
@@ -40,23 +55,46 @@ const Index = ({dispatch, current}) => {
                 audioStatus       = {status => setStateAudioStatus(status)}
                 headleCurrentSong = {val    => dispatch( singlePlay('singlePlay',val) )}
             />
-            <div className={`audio-wrap ${stateWindow}`}>
-                <Timeline className="pc" audioStatus={stateAudioStatus}/>
-                <div className="audio-container">
-                    <Cover
-                        handleWindow = {(val)=>{ setWindowStatus(val) }}
-                    />
-                    <Timeline className="mobile" audioStatus={stateAudioStatus}/>
-                    <Control
-                        current       = {current}
-                        audio         = {stateAudioStatus['audio']} 
-                        onplay        = {stateAudioStatus['onplay']}
-                        handleLoop    = {(val) => setLoopStatus(val)}
-                        headleChange  = {(val) => dispatch( singlePlay('singlePlay',val) )}
-                    />
-                    <Tool />
-                </div>
-            </div>
+            {
+                changeAudioControl=='pc'?(
+                    <div className={`audio-wrap-pc`}>
+                        <Timeline audioStatus={stateAudioStatus}/>
+                        <div className="audio-container">
+                            <Cover
+                                handleWindow = {(val)=>{ setWindowStatus(val) }}
+                            />
+                            <Control
+                                current       = {current}
+                                audio         = {stateAudioStatus['audio']} 
+                                onplay        = {stateAudioStatus['onplay']}
+                                handleLoop    = {(val) => setLoopStatus(val)}
+                                headleChange  = {(val) => dispatch( singlePlay('singlePlay',val) )}
+                            />
+                            <Tool />
+                        </div>
+                    </div>
+                ):(
+                    <div className={`audio-wrap-mobile ${stateWindow}`}>
+                        <div className="audio-wrap-mobile-head" onClick={unfold.bind(this)}></div>
+                        <Cover
+                            handleWindow = {(val)=>{ setWindowStatus(val) }}
+                        />
+                        <Timeline audioStatus={stateAudioStatus}/>
+                        <Control
+                            current       = {current}
+                            audio         = {stateAudioStatus['audio']} 
+                            onplay        = {stateAudioStatus['onplay']}
+                            handleLoop    = {(val) => setLoopStatus(val)}
+                            headleChange  = {(val) => dispatch( singlePlay('singlePlay',val) )}
+                        />
+                        <Volume 
+                            audioStatus = {stateAudioStatus}
+                            stateWindow = {stateWindow}
+                        />
+                        <div className="background-cover" style={{"backgroundImage": `url(${current['cover']})`}}></div>
+                    </div>
+                )
+            }
         </>
     );
 }
