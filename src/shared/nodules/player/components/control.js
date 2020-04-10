@@ -26,8 +26,8 @@ export default ({audio, current, onplay, handleLoop, headleChange}) => {
         
         let currentInfo  = {};
         let currentIndex = 0;
+        const PL = JSON.parse(sessionStorage.getItem('PL')) || [];
         const searchCurrentInfo = () => {
-            const PL = JSON.parse(sessionStorage.getItem('PL')) || [];
             return {
                 PL           : PL,
                 PLLength     : PL.length,
@@ -37,7 +37,9 @@ export default ({audio, current, onplay, handleLoop, headleChange}) => {
 
         switch( actionType ){
             case 'play':
-                audio.play();
+                if( audio!=undefined ){
+                    audio.play();
+                }
                 break;
 
             case 'pause':
@@ -45,21 +47,25 @@ export default ({audio, current, onplay, handleLoop, headleChange}) => {
                 break;
 
             case 'prev':
-                currentInfo  = searchCurrentInfo();
-                currentIndex = currentInfo['currentIndex']-1;
-                if( currentIndex<0 ){
-                    currentIndex = currentInfo['PLLength']-1;
+                if( PL.length>0 ){
+                    currentInfo  = searchCurrentInfo();
+                    currentIndex = currentInfo['currentIndex']-1;
+                    if( currentIndex<0 ){
+                        currentIndex = currentInfo['PLLength']-1;
+                    }
+                    headleChange( currentInfo['PL'][currentIndex] );
                 }
-                headleChange( currentInfo['PL'][currentIndex] );
                 break;
 
             case 'next':
-                currentInfo  = searchCurrentInfo();
-                currentIndex = currentInfo['currentIndex']+1;
-                if( currentIndex>=currentInfo['PLLength'] ){
-                    currentIndex = 0;
+                if( PL.length>0 ){
+                    currentInfo  = searchCurrentInfo();
+                    currentIndex = currentInfo['currentIndex']+1;
+                    if( currentIndex>=currentInfo['PLLength'] ){
+                        currentIndex = 0;
+                    }
+                    headleChange( currentInfo['PL'][currentIndex] );
                 }
-                headleChange( currentInfo['PL'][currentIndex] );
                 break;
 
             case 'loop':

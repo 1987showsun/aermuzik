@@ -20,54 +20,56 @@ export default ({className='', audioStatus}) => {
     useEffect(() => {
         const timeLineAction = () => {
             const { audio, duration } = audioStatus;
-            const { current }  = timeLine;
-            const setCurrentTime = ( val, total_w ) => {
-                let   AFTER_W     = (val/total_w)*100;
-                audio.currentTime = ((duration/100)*AFTER_W);
-            }
-            $(current).off().on({
-                mousedown : function(e){
-                    const THIS_W   = $(this).width();
-                    const OFFSET_X = $(this).offset().left;
-                    audio.pause();
-                    $('body').on({
-                        mousedown : function(e){
-                            setCurrentTime( e.pageX-OFFSET_X, THIS_W );
-                        },
-                        mousemove : function(e){
-                            setCurrentTime( e.pageX-OFFSET_X, THIS_W );
-                        },
-                        mouseup   : function(){
-                            $('body').off();
-                            audio.play();
-                        }
-                    });
-                },
-                mouseup : function(){
-                    audio.play();
-                },
-
-                touchstart : function(e){
-                    const THIS_W   = $(this).width();
-                    const OFFSET_X = $(this).offset().left;
-                    audio.pause();
-                    $('body').on({
-                        touchstart : function(e){
-                            setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
-                        },
-                        touchmove  : function(e){
-                            setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
-                        },
-                        touchend   : function(){
-                            $('body').off();
-                            audio.play();
-                        }
-                    });
-                },
-                touchend   : function(e){
-                    audio.play();
+            if( audio!=undefined ){
+                const { current }         = timeLine;
+                const setCurrentTime = ( val, total_w ) => {
+                    let   AFTER_W     = (val/total_w)*100;
+                    audio.currentTime = ((duration/100)*AFTER_W);
                 }
-            })
+                $(current).off().on({
+                    mousedown : function(e){
+                        const THIS_W   = $(this).width();
+                        const OFFSET_X = $(this).offset().left;
+                        audio.pause();
+                        $('body').on({
+                            mousedown : function(e){
+                                setCurrentTime( e.pageX-OFFSET_X, THIS_W );
+                            },
+                            mousemove : function(e){
+                                setCurrentTime( e.pageX-OFFSET_X, THIS_W );
+                            },
+                            mouseup   : function(){
+                                $('body').off();
+                                audio.play();
+                            }
+                        });
+                    },
+                    mouseup : function(){
+                        audio.play();
+                    },
+
+                    touchstart : function(e){
+                        const THIS_W   = $(this).width();
+                        const OFFSET_X = $(this).offset().left;
+                        audio.pause();
+                        $('body').on({
+                            touchstart : function(e){
+                                setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
+                            },
+                            touchmove  : function(e){
+                                setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
+                            },
+                            touchend   : function(){
+                                $('body').off();
+                                audio.play();
+                            }
+                        });
+                    },
+                    touchend   : function(e){
+                        audio.play();
+                    }
+                });
+            }
         }
         timeLineAction();
         return() => {
