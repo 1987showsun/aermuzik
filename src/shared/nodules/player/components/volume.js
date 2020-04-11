@@ -16,10 +16,8 @@ export default ({className='', stateWindow, audioStatus}) => {
 
     useEffect(() => {
         const { audio }    = audioStatus;
-        const { current }  = volumeLine;
         const windowResize = () => {
             if( audio!=undefined ){
-                const volumeLine_w = $(current).find('>.volumeLine').width();
                 const volume       = sessionStorage.getItem('volume') || audio.volume;
                 setScheduleW( volume*100 );
             }
@@ -39,20 +37,24 @@ export default ({className='', stateWindow, audioStatus}) => {
 
                 const setCurrentTime = ( val, total_w ) => {
                     let   AFTER_W     = (val/total_w)*100;
-                    audio.volume = AFTER_W/100;
+                    audio.volume = val/total_w;
                     setScheduleW( AFTER_W );
                 }
 
-                $(current).find('>.volumeLine').off().on({
+                $(current).off().on({
                     mousedown : function(e){
                         const THIS_W   = $(this).width();
                         const OFFSET_X = $(this).offset().left;
                         $('body').on({
                             mousedown : function(e){
-                                setCurrentTime( e.pageX-OFFSET_X, THIS_W );
+                                if( e.pageX-OFFSET_X<=THIS_W && e.pageX-OFFSET_X>=0 ){
+                                    setCurrentTime( e.pageX-OFFSET_X, THIS_W );
+                                }
                             },
                             mousemove : function(e){
-                                setCurrentTime( e.pageX-OFFSET_X, THIS_W );
+                                if( e.pageX-OFFSET_X<=THIS_W && e.pageX-OFFSET_X>=0 ){
+                                    setCurrentTime( e.pageX-OFFSET_X, THIS_W );
+                                }
                             },
                             mouseup   : function(){
                                 $('body').off();
@@ -65,10 +67,14 @@ export default ({className='', stateWindow, audioStatus}) => {
                         const OFFSET_X = $(this).offset().left;
                         $('body').on({
                             touchstart : function(e){
-                                setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
+                                if( e.originalEvent.touches[0].pageX-OFFSET_X<=THIS_W && e.originalEvent.touches[0].pageX-OFFSET_X>=0 ){
+                                    setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
+                                }
                             },
                             touchmove  : function(e){
-                                setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
+                                if( e.originalEvent.touches[0].pageX-OFFSET_X<=THIS_W && e.originalEvent.touches[0].pageX-OFFSET_X>=0 ){
+                                    setCurrentTime( e.originalEvent.touches[0].pageX-OFFSET_X, THIS_W );
+                                }
                             },
                             touchend   : function(){
                                 $('body').off();
@@ -101,12 +107,14 @@ export default ({className='', stateWindow, audioStatus}) => {
     }
 
     return(
-        <div ref={volumeLine} className={`volume-wrap ${className}`}>
+        <div className={`volume-wrap ${className}`}>
             <div className="volume-icon" onClick={volumeAction.bind(this,0)}>
                 <FontAwesomeIcon icon={faVolumeOff} />
             </div>
-            <div className="volumeLine">
-                <div className="volumeLine-schedule" style={{width: `${scheduleW}%`}}></div>
+            <div ref={volumeLine} className="sensing-block">
+                <div className="volumeLine">
+                    <div className="volumeLine-schedule" style={{width: `${scheduleW}%`}}></div>
+                </div>
             </div>
             <div className="volume-icon" onClick={volumeAction.bind(this,1)}>
                 <FontAwesomeIcon icon={faVolumeUp} />
