@@ -5,32 +5,36 @@ ul{
 }
 
 :root {
-    --bg: #f0f2f5;
-    --blue: #007bff;
-    --indigo: #6610f2;
-    --purple: #6f42c1;
-    --pink: #e83e8c;
-    --red: #dc3545;
-    --orange: #fd7e14;
-    --yellow: #ffc107;
-    --green: #28a745;
-    --teal: #20c997;
-    --cyan: #17a2b8;
-    --white: #fff;
-    --gray: #6c757d;
-    --gray-dark: #343a40;
-    --primary: #007bff;
-    --secondary: #6c757d;
-    --success: #28a745;
-    --info: #17a2b8;
-    --warning: #ffc107;
-    --danger: #dc3545;
-    --light: #f8f9fa;
-    --dark: #343a40;
-    --main: #f6102d;
-    --cancel: #e0e1e2;
-    --blockTitle: #f6102d;
-    --content: #979ba7;
+    --function   : #5a6268;
+    --bg         : #f0f2f5;
+    --blue       : #007bff;
+    --indigo     : #6610f2;
+    --purple     : #6f42c1;
+    --pink       : #e83e8c;
+    --red        : #dc3545;
+    --orange     : #fd7e14;
+    --yellow     : #ffc107;
+    --green      : #28a745;
+    --teal       : #20c997;
+    --cyan       : #17a2b8;
+    --white      : #fff;
+    --gray       : #6c757d;
+    --gray-dark  : #343a40;
+    --primary    : #007bff;
+    --secondary  : #6c757d;
+    --failure    : #fa5c7c;
+    --success    : #0acf97;
+    --info       : #17a2b8;
+    --warning    : #ffc107;
+    --danger     : #dc3545;
+    --light      : #f8f9fa;
+    --dark       : #343a40;
+    --main       : #f6102d;
+    --cancel     : #e0e1e2;
+    --blockTitle : #f6102d;
+    --content    : #979ba7;
+    --submit     : #f9375e;
+    --cancel     : #6c757d;
 }
 
 *{
@@ -264,6 +268,9 @@ form{
         padding            : 10px;
         margin             : 0px 10px 0px 0px;
         background         : rgba(0,0,0,.4);
+        &.login-form{
+            margin             : 0px;
+        }
         .form-head{
             justify-content: center;
         }
@@ -424,6 +431,11 @@ form{
                 color           : #fff;
                 box-shadow      : 0px 0px 5px rgba(0,0,0,.5);
                 &.toaster-success{
+                    color           : var(--success);
+                }
+                &.toaster-failure{
+                    color           : var(--failure);
+
                 }
             }
             .Toaster__alert_close{

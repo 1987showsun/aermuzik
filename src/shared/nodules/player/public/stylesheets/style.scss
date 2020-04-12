@@ -290,17 +290,17 @@
 
 .audio-wrap-mobile{
     width             : 100%;
-    height            : 60%;
+    height            : 60px;
     padding           : 5px;
     display           : flex;
     background        : #000;
     border-bottom     : 1px solid #333;
-    position          : sticky;
+    position          : fixed;
     z-index           : 10;
     bottom            : 60px;
     left              : 0px;
     overflow          : hidden;
-    transition        : bottom .4s, height .6s;
+    transition        : bottom .4s, height .4s;
     .audio-wrap-mobile-head{
         width             : 100%;
         height            : 100%;

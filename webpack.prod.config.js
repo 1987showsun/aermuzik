@@ -8,7 +8,6 @@ const ExtractTextPlugin  = require('extract-text-webpack-plugin');
 const autoprefixer       = require('autoprefixer');
 const CopyWebpackPlugin  = require("copy-webpack-plugin");
 const { InjectManifest } = require('workbox-webpack-plugin');
-const CompressionPlugin  = require("compression-webpack-plugin");
 const nodeExternals      = require('webpack-node-externals');
 
 const keyName= {};
@@ -93,8 +92,7 @@ const browserConfig = {
         from: "./src/server/public", 
         to: "public/assets"
       }
-    ]),
-    new CompressionPlugin(),
+    ])
   ]
 };
 

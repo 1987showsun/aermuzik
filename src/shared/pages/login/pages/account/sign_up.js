@@ -53,7 +53,7 @@ class Signup extends React.Component{
 
         return(
             <>
-                <form className="noLable" onSubmit={this.handleSubmit.bind(this)}>
+                <form className="noLable login-form" onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-head">
                         <h2>Signup</h2>
                     </div>

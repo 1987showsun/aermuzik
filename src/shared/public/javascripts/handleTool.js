@@ -39,7 +39,7 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
 
             case 'collectionAlbums':
                 // 收藏專去
-                dispatch( collection(pathname,{ method: 'put', type: 'albums'},{id: val['_id']}) ).then( res => {
+                dispatch( collection({method: 'put', query:{type:'albums'}, data:{id:val['_id']}}) ).then( res => {
                     let status      = 'failure';
                     let status_text = 'Update failure';
 

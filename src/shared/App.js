@@ -57,7 +57,10 @@ class Layout extends React.Component{
                         !displayFooterStatus &&
                             <Footer />
                     }
-                    <Audio />
+                    {
+                        !pathnameArray.includes('account') &&
+                            <Audio />
+                    }
                 </main>
             </>
         );

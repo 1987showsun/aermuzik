@@ -101,7 +101,7 @@ export const albumsCollection = ({method="get", query={}, data={}}) => {
         return Axios({method, url, data}).then(res => {
             const { total, limit, current, list } = res['data'];
             dispatch({
-                type  : 'COLLECTION_ALBUMS',
+                type  : 'COLLECTION_MYACCOUNT_ALBUMS',
                 total,
                 limit,
                 current,

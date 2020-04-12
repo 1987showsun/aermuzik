@@ -151,7 +151,7 @@ class Info extends React.Component{
         const { pathname, search } = location;
         const { id }               = match.params;
         this.props.dispatch( like({query:{type: 'albums', id}}) );
-        this.props.dispatch( collection(pathname,{type: 'albums', id}) );
+        this.props.dispatch( collection({query: {type: 'albums', id}}) );
         this.props.dispatch( ssrAlbumsInfo(pathname,{type: 'albums', id}) );
     }
 

@@ -31,7 +31,7 @@ class Login extends React.Component{
         const { username, password } = formObject;
 
         return(
-            <form className="noLable" onSubmit={this.handleSubmit.bind(this)}>
+            <form className="noLable login-form" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="form-head">
                     <h2>Sigin In</h2>
                     <p>log into your username</p>

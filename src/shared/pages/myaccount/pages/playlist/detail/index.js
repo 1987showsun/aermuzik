@@ -34,19 +34,19 @@ const Index = ({ match, history, dispatch, name, total, list }) => {
                     <li>
                         <button onClick={()=>{}}>
                             <i><FontAwesomeIcon icon={faTrashAlt} /></i>
-                            Delete all songs
+                            <span className="text">Delete all songs</span>
                         </button>
                     </li>
                     <li>
                         <button onClick={()=>{}}>
                             <i><FontAwesomeIcon icon={faPlay} /></i>
-                            Add playlist
+                            <span className="text">Add playlist</span>
                         </button>
                     </li>
                     <li>
                         <button onClick={()=> history.goBack() }>
                             <i><FontAwesomeIcon icon={faChevronDown} /></i>
-                            Close
+                            <span className="text">Close</span>
                         </button>
                     </li>
                 </ul>

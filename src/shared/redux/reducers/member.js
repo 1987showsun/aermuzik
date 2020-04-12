@@ -16,13 +16,15 @@ export default (
             total   : 0,
             limit   : 30,
             current : 1,
-            list    : []
+            list    : [],
+            ids     : []
         },
         songsCollection : {
             total   : 0,
             limit   : 30,
             current : 1,
-            list    : []
+            list    : [],
+            ids     : []
         },
         playlistFolder  : {
             total   : 0,
@@ -59,7 +61,7 @@ export default (
             }
             break;
 
-        case 'COLLECTION_ALBUMS':
+        case 'COLLECTION_MYACCOUNT_ALBUMS':
             state = {
                 ...state,
                 albumsCollection: { 

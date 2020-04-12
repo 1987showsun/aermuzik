@@ -7,10 +7,9 @@ import axios       from 'axios';
 import queryString from 'query-string';
 import apiURL      from './url';
 
-export const collection = (pathname, query={}, data={}) => {
+export const collection = ({method='get', query={}, data={}}) => {
     return (dispatch) => {
 
-        const method     = query['method'] || 'get';
         const initQuery  = {};
         const search     = queryString.stringify({ ...initQuery, ...query });
         const url        = `${apiURL['collection']}${search!=""? `?${search}`:''}`;
@@ -21,7 +20,6 @@ export const collection = (pathname, query={}, data={}) => {
                 type  : `COLLECTION_${type}`,
                 list  : list
             })
-
             return res;
         }).catch( err => err['response'] );
     }

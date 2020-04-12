@@ -17,6 +17,7 @@ import { collection }                                      from '../../../../act
 
 const Index = ({dispatch, location, match, total, limit, current, list}) => {
 
+    const [ testList, setList ] = useState([]);
     const [ stateLoading, setLoading ] = useState(true);
 
     useEffect(()=>{
@@ -24,6 +25,10 @@ const Index = ({dispatch, location, match, total, limit, current, list}) => {
             setLoading(false);
         });
     },[stateLoading]);
+
+    useEffect(()=>{
+        setList([...list]);
+    },[list]);
 
     const callAction = ( actionType='', val={} ) => {
         const { pathname, search } = location;
@@ -36,7 +41,7 @@ const Index = ({dispatch, location, match, total, limit, current, list}) => {
 
         switch( actionType ){
             case 'collectionAlbums':
-                dispatch( collection(pathname,{ method: 'put', type: 'albums'},{id: val['_id']}) ).then( res => {
+                dispatch( collection({ method: 'put',query:{type: 'albums'},data:{id: val['_id']}}) ).then( res => {
                     let status      = 'failure';
                     let status_text = 'Update failure';
 
