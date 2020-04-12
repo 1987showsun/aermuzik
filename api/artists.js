@@ -67,6 +67,29 @@ router.get('/info',ensureToken ,function(req, res, next) {
   });
 });
 
+router.get('/views', ensureToken, (req, res, next) => {
+  const { id }       = req.query;
+  database.collection('artistsViews').find({artists_id: ObjectId(id)}).toArray(function(err,artistsViewsData){
+    if( artistsViewsData.length==0 ){
+      database.collection('artistsViews').insert({
+        artists_id : ObjectId(id),
+        count      : 1
+      },(err, afterData)=>{
+        res.json({
+            count : 1
+        })
+      });
+    }else{
+      const artistsViewsCount = artistsViewsData[0]['count']+1;
+      database.collection('artistsViews').update({artists_id:ObjectId(id)},{$set:{ count: artistsViewsCount }},()=>{
+        res.json({
+            count : artistsViewsCount
+        })
+    });
+    }      
+  });
+});
+
 router.get('/', function(req, res, next) {
 
     const loginStatus     = jwt.verify(req.token, ' ',(err, data)=>{return data});

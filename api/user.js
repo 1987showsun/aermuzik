@@ -131,7 +131,6 @@ router.post('/signup', function(req, res, next) {
 
     if( requiredResult['status'] ){
         database.collection('user').find({username:username}).toArray(function(err,data){
-            console.log( req['body'] );
             if( data.length==0 ){
                 console.log('User name registered successfully');
                 database.collection('user').insert({
@@ -193,14 +192,9 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.get('/info', ensureToken, function(req, res, next) {
-
-    console.log( req.cookies );
-
     const token = checkLoginStatus(req.token);
     if( token ){
-        
         const { _id, username }      = token;
-
         database.collection('user').find({ username }).toArray(function(err,data){
             database.collection('usercover').find({ user_id: ObjectId(_id) }).toArray(function(err,usercover){
                 if( data.length!=0 ){

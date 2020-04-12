@@ -12,60 +12,39 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import '../../../public/stylesheets/slider.scss';
 import '../public/stylesheets/kv.scss';
 
-class Kv extends React.Component{
-
-    constructor(props){
-        super(props);
-        this.state = {
-            settings: {
-                className      : 'kv-slide-wrap',
-                autoplay       : true,
-                autoplaySpeed  : 5000,
-                dots           : true,
-                infinite       : true,
-                arrows         : false,
-                speed          : 1000,
-                slidesToShow   : 1,
-                slidesToScroll : 1
-            },
-            list  : [],
-            total : 0
-        }
-    }
-
-    static getDerivedStateFromProps( props,state ){
-        return {
-            list  : props.list,
-            total : props.total
-        };
-    }
-
-    render(){
-
-        const { settings, list } = this.state;
-
-        return(
-            <div className="row no-padding">
-                <Slider {...settings}>
-                    {
-                        list.map( item => {
-                            return(
-                                <figure key={item['_id']} className="kv-item">
-                                    <Link to={`/${item['aims']}/${item['purpose_id']}`}>
-                                        <LazyLoadImage
-                                            src       ={item['src']}
-                                            alt       ={item['title']}
-                                            effect    ={'blur'}
-                                        />
-                                    </Link>
-                                </figure>
-                            );
-                        })
-                    }
-                </Slider>
-            </div>
-        );
-    }
+const slideSetting = {
+    className      : 'kv-slide-wrap',
+    autoplay       : true,
+    autoplaySpeed  : 5000,
+    dots           : true,
+    infinite       : true,
+    arrows         : false,
+    speed          : 1000,
+    slidesToShow   : 1,
+    slidesToScroll : 1
+}
+const Kv = ({ list=[], total=0 }) => {
+    return(
+        <div className="row no-padding">
+            <Slider {...slideSetting}>
+                {
+                    list.map( item => {
+                        return(
+                            <figure key={item['_id']} className="kv-item">
+                                <Link to={`/${item['aims']}/${item['purpose_id']}`}>
+                                    <LazyLoadImage
+                                        src       ={item['src']}
+                                        alt       ={item['title']}
+                                        effect    ={'blur'}
+                                    />
+                                </Link>
+                            </figure>
+                        );
+                    })
+                }
+            </Slider>
+        </div>
+    );
 }
 
 const mapStateToProps = state => {

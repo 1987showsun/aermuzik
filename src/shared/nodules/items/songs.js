@@ -7,6 +7,7 @@ import React, { useState, useEffect, useMemo }    from 'react';
 import { Link }                                   from 'react-router-dom';
 import { FontAwesomeIcon }                        from '@fortawesome/react-fontawesome';
 import { faHeart, faPlus, faFolderPlus, faClock } from '@fortawesome/free-solid-svg-icons';
+import { LazyLoadImage }                          from 'react-lazy-load-image-component';
 
  // Components
  import Tool             from './components/tool';
@@ -28,7 +29,11 @@ export default ({ data, playlist=[], className="", callAction }) => {
         <div className={`songs-item ${className}`}>
             <div className="sort">{idx!=undefined? (String(idx+1).length<2? `0${idx+1}`:idx+1):(null)}</div>
             <div className="img">
-                <img src={cover} alt={name} title="" />
+                <LazyLoadImage 
+                    alt    = {name}
+                    src    = {cover}
+                    effect = {'blur'}
+                />
             </div>
             <div className="desc">
                 <h3 onClick={toolAction.bind(this,'singlePlay')}>{name}</h3>

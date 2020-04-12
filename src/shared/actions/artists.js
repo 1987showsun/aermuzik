@@ -59,6 +59,26 @@ export function artistsInfo(pathname,query,data){
     }
 }
 
+export const views = (pathname,query={},data={}) => {
+    return( dispatch ) => {
+
+        const { type='' }   = query;
+        const method        = 'get';
+        const initQuery     = {};
+        const search        = queryString.stringify({ ...initQuery, ...query });
+        const url           = `${apiURL['artists']['views']}${search!=""? `?${search}`:''}`;
+
+        return Axios({method,url,data}).then( res => {
+            const { count } = res['data'];
+            dispatch({
+                type  : `ARTISTS_VIEWS_COUNT`,
+                count : count
+            });
+            return res;
+        });
+    }
+}
+
 export const ssrArtistsInfo = (pathname="",query={},data={}) => {
 
     const pathnameArray    = pathname.split('/').filter( item => item!='' );

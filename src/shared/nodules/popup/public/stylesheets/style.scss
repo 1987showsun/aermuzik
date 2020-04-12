@@ -1,6 +1,7 @@
 .popup-wrap{
     width            : 100%;
     height           : 100%;
+    padding          : 15px;
     display          : flex;
     align-items      : center;
     justify-content  : center;
@@ -20,27 +21,35 @@
     .popup-container{
         width          : 100%;
         max-width      : 480px;
+        max-height     : 70%;
         min-height     : 50px;
         position       : relative;
         z-index        : 2;
+        overflow       : auto;
         .popup-head{
             width            : 100%;
             height           : 40px;
-            padding          : 10px 5px;
+            padding          : 10px 10px;
             display          : flex;
             align-items      : center;
             color            : #fff;
             font-size        : 0.9rem;
+            background       : #000;
+            position         : sticky;
+            top              : 0px;
             h2{
                 font-size        : 1rem;
             }
+        }
+        .popup-text{
+            width   : 100%;
+            padding : 10px;
         }
     }
 }
 
 .wrong-popup{
     .popup-container{
-        padding       : 10px;
         background    : #000;
     }
     .popup-content{

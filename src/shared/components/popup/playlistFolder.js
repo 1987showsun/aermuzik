@@ -65,9 +65,6 @@ const PopupPlaylistFolder = ({dispatch, current_id= "", playlistFolderList=[], p
 
     return(
         <>
-            <div className="popup-head">
-                <h2>Put in playlist folder</h2>
-            </div>
             <ul className="popup-list-ul">
                 {
                     playlistFolderList.map( item => {

@@ -7,10 +7,10 @@ import axios       from 'axios';
 import queryString from 'query-string';
 import apiURL      from './url';
 
-export const like = (pathname, query={}, data={}) => {
+export const like = ({method="get", query={}, data={}}) => {
     return (dispatch) => {
 
-        const method     = query['method'] || 'get';
+        //const method     = query['method'] || 'get';
         const more       = query['more']   || 'false';
         const initQuery  = {};
         const search     = queryString.stringify({ ...initQuery, ...query });
@@ -31,9 +31,9 @@ export const like = (pathname, query={}, data={}) => {
     }
 }
 
-export const likePlural = (pathname, query={}, data={}) => {
+export const likePlural = ({method='get', query={}, data={}}) => {
     return(dispatch) => {
-        const method     = query['method'] || 'get';
+
         const more       = query['more']   || 'false';
         const initQuery  = {};
         const search     = queryString.stringify({ ...initQuery, ...query });

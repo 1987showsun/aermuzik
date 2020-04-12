@@ -1,0 +1,10 @@
+{
+    "en": {
+        "popup" : {
+            "head" : {
+                "playlistFolder" : "Put in playlist folder",
+                "unLogin"        : ""
+            }
+        }
+    }
+}

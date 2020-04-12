@@ -9,15 +9,16 @@ import queryString                                         from 'query-string';
 // Actions
 import { like, likePlural }                                from '../../actions/likes';
 import { info }                                            from '../../actions/albums';
+import { ssrArtistsInfo }                                  from '../../actions/artists';
 import { collection }                                      from '../../actions/collection';
 import { onPlayer, singlePlay }                            from '../../actions/player';
 import { playlistFolder, playlistFolderExpand }            from '../../actions/member';
 
 
-export default (handleCallbackStatus, {jwtToken, dispatch, location, match, actionType, val}) => {
+export default (handleCallbackStatus, {jwtToken, dispatch, location, match, actionType, val, source="albums"}) => {
 
     const { pathname, search } = location;
-    const albums_id            = match['params']['id'];
+    const id                   = match['params']['id'];
     const toasterFunction      = ({status='failure' , status_text=''}) => {
         toaster.notify( <div className={`toaster-status-block toaster-${status}`}>{status_text}</div> , {
             position    : "bottom-right",
@@ -45,7 +46,7 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
                     if( res['status']==200 ){
                         status      = 'success';
                         status_text = 'Update successful';
-                        dispatch( info(pathname,{...queryString.parse(search), id: albums_id}) );
+                        dispatch( info(pathname,{...queryString.parse(search), id: id}) );
                     }
 
                     toasterFunction({ status, status_text });
@@ -58,7 +59,7 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
 
             case 'albumsLike':
                 // 喜歡專輯
-                dispatch( like(pathname,{ method: 'put', type: 'albums'},{id: val['_id']}) ).then( res => {
+                dispatch( like({method: 'put', query:{type: 'albums'}, data:{id: val['_id']}}) ).then( res => {
                     let status      = 'failure';
                     let status_text = 'Update failure';
 
@@ -72,13 +73,22 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
                 break;
 
             case 'albumsLikePlural':
-                dispatch( likePlural(pathname,{...queryString.parse(search), method: 'put', type: 'albums'},{id: val['_id']}) ).then( res => {
+                dispatch( likePlural({method:'put', query:{...queryString.parse(search), type: 'albums'}, data:{id: val['_id']}}) ).then( res => {
                     let status      = 'failure';
                     let status_text = 'Update failure';
                     if( res['status']==200 ){
                         status      = 'success';
                         status_text = 'Update successful';
-                        dispatch( info(pathname,{...queryString.parse(search), id: albums_id}) );
+                        switch( source ){
+                            case 'albums':
+                                dispatch( info(pathname,{...queryString.parse(search), id: id}) );
+                                break;
+
+                            case 'artists':
+                                dispatch( ssrArtistsInfo(pathname,{...queryString.parse(search)}) );
+                                break;
+                        }
+                        
                     }
 
                     toasterFunction({ status, status_text });
@@ -114,6 +124,21 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
             case 'addPlaylist':
                 // 加入播放清單
                 dispatch( onPlayer(val) );
+                break;
+
+            case 'artistsLike':
+                // 喜歡歌手
+                dispatch( like({method: 'put', query:{type: 'artists'}, data:{id: val['_id']}}) ).then( res => {
+                    let status      = 'failure';
+                    let status_text = 'Update failure';
+
+                    if( res['status']==200 ){
+                        status      = 'success';
+                        status_text = 'Update successful';
+                    }
+
+                    toasterFunction({ status, status_text });
+                });
                 break;
         }
     }

@@ -12,7 +12,6 @@ import { faPlay, faStar, faHeart, faEye, faShareAlt }from '@fortawesome/free-sol
 const Cover = ({type='albums', data={}, collections={}, likeStatus={}, likesAlbumCount=0, viewsAlbumCount=0, callAction }) => {
 
     const { _id, cover, name, intro, artists, artists_id } = data;
-    //console.log(likeStatus);
 
     return(
         <div className="row relative row-cover">

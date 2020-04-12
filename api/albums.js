@@ -58,6 +58,7 @@ router.get('/info', ensureToken, (req, res, next) => {
                                     },
                                     artist         : { ...artistsData[0] },
                                     songs          : songData.map( item => {
+                                        item = { ...item, album: findAlbum['name'] };
                                         if( loginStatus!=undefined ){
                                             delete item['src_general'];
                                             return item;

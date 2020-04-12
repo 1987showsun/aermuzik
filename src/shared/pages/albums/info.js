@@ -25,6 +25,9 @@ import { collection }                                      from '../../actions/c
 // HandleCommonAction
 import handleTool from '../../public/javascripts/handleTool';
 
+// Lang
+import lang from '../../../server/public/lang/common.json';
+
 class Info extends React.Component{
 
     static initialAction( pathname,query,data={} ){
@@ -107,6 +110,7 @@ class Info extends React.Component{
                 <Popup 
                     className   = "wrong-popup"
                     popupSwitch = {popupSwitch}
+                    head        = {lang['en']['popup']['head'][popupType]}
                     onCancel    = {() => this.setState({popupSwitch: false})}
                 >
                     <PopupCommon
@@ -146,7 +150,7 @@ class Info extends React.Component{
         const { location, match }  = this.props;
         const { pathname, search } = location;
         const { id }               = match.params;
-        this.props.dispatch( like(pathname,{type: 'albums', id}) );
+        this.props.dispatch( like({query:{type: 'albums', id}}) );
         this.props.dispatch( collection(pathname,{type: 'albums', id}) );
         this.props.dispatch( ssrAlbumsInfo(pathname,{type: 'albums', id}) );
     }

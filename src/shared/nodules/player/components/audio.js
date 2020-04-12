@@ -67,7 +67,11 @@ const Audio = ({loop, current, audioStatus, actionType, headleCurrentSong}) => {
                             }
                         }else{
                             audioREF.currentTime = 0;
-                            audioREF.play();
+                            if( loop==1 ){
+                                audioREF.play();
+                            }else{
+                                audioREF.pause();
+                            }
                         }
                         break;
                 }
@@ -110,7 +114,11 @@ const Audio = ({loop, current, audioStatus, actionType, headleCurrentSong}) => {
                         }
                     }else{
                         audioREF.currentTime = 0;
-                        audioREF.play();
+                        if( loop==1 ){
+                            audioREF.play();
+                        }else{
+                            audioREF.pause();
+                        }
                     }
                     break;
             }

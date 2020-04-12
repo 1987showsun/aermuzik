@@ -5,12 +5,13 @@
 
 export default function artists(
     state = {
-        artistsTotal           : 0,
-        artistsList            : [],
-        artistsInfo            : {},
-        artistsSong            : [],
-        artistsAlbums          : [],
-        artistsMv              : []
+        viewsCount       : 0,
+        artistsTotal     : 0,
+        artistsList      : [],
+        artistsInfo      : {},
+        artistsSong      : [],
+        artistsAlbums    : [],
+        artistsMv        : []
     },action
 ){
     switch(action.type){
@@ -40,6 +41,13 @@ export default function artists(
             state = {
                 ...state,
                 artistsAlbums : action.list
+            }
+            break;
+
+        case 'ARTISTS_VIEWS_COUNT':
+            state = {
+                ...state,
+                viewsCount   : action.count
             }
             break;
 

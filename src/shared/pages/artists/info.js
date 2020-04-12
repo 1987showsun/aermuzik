@@ -3,10 +3,8 @@
  *   All rights reserved.
  */
 import React                                               from 'react';
-import toaster                                             from "toasted-notes";
 import queryString                                         from 'query-string';
 import { connect }                                         from 'react-redux';
-import { Link }                                            from 'react-router-dom';
 import { Helmet }                                          from "react-helmet";
 
 // Components
@@ -15,16 +13,20 @@ import Songs                                               from './components/so
 import Albums                                              from './components/albums';
 import Mvs                                                 from './components/mvs';
 import Messages                                            from './components/messages';
+import PopupCommon                                         from '../../components/popup';
 
 // Modules
 import Popup                                               from '../../nodules/popup';
 
 // Actions
-import { like, likePlural }                                from '../../actions/likes';
-import { ssrArtistsInfo }                                  from '../../actions/artists';
-import { albumsArtists }                                   from '../../actions/albums';
-import { collection }                                      from '../../actions/collection';
-import { onPlayer, singlePlay }                            from '../../actions/player';
+import { like }                                            from '../../actions/likes';
+import { ssrArtistsInfo, views }                           from '../../actions/artists';
+
+// HandleCommonAction
+import handleTool                                          from '../../public/javascripts/handleTool';
+
+// Lang
+import lang                                                from '../../../server/public/lang/common.json';
 
 // Stylesheets
 import './public/stylesheets/cover.scss';
@@ -38,13 +40,17 @@ class Info extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            current_id           : "",
+            popupType            : "",
             popupSwitch          : false,
             info                 : {},
+            artist               : {},
             songs                : [],
-            albums               : [],
+            otherAlbums          : [],
             mv                   : [],
             playlist             : [],
             comment              : [],
+            collectionsAlbums    : [],
             og                   : {
                 url                  : ""
             }
@@ -54,18 +60,19 @@ class Info extends React.Component{
     static getDerivedStateFromProps(props,state){
         return {
             info                 : props.info,
+            artist               : props.artist,
             songs                : props.songs,
-            albums               : props.albums,
+            otherAlbums          : props.otherAlbums,
             mv                   : props.mv,
             playlist             : props.playlist.map( item => item['_id'] ),
-            comment              : props.comment
+            comment              : props.comment,
+            collectionsAlbums    : props.collectionsAlbums,
         }
     }
 
     render(){
-
         const { location, commentId } = this.props;
-        const { playlist, info, songs, albums, mv, comment, popupSwitch, og } = this.state;
+        const { playlist, info, collectionsAlbums, songs, otherAlbums, mv, comment, current_id, popupSwitch, popupType, og } = this.state;
 
         return(
             <>
@@ -78,9 +85,10 @@ class Info extends React.Component{
                     <meta property="og:image"              content={info['cover'] || ''} /> 
                 </Helmet>
                 <Cover 
-                    type       = "artists"
-                    data       = {info}
-                    callAction = {this.callAction.bind(this)}
+                    type        = "artists"
+                    data        = {info}
+                    collections = {{artists: collectionsAlbums}}
+                    callAction  = {this.callAction.bind(this) }
                 />
                 <Songs 
                     data       = {songs}
@@ -88,7 +96,7 @@ class Info extends React.Component{
                     callAction = {this.callAction.bind(this)}
                 />
                 <Albums 
-                    data       = {albums}
+                    data       = {otherAlbums}
                     callAction = {this.callAction.bind(this)}
                 />
                 <Mvs 
@@ -104,19 +112,14 @@ class Info extends React.Component{
                 <Popup 
                     className   = "wrong-popup"
                     popupSwitch = {popupSwitch}
+                    head        = {lang['en']['popup']['head'][popupType]}
                     onCancel    = {() => this.setState({popupSwitch: false})}
                 >
-                    <div className="popup-content">
-                        <p>Member not logged in, please go to login</p>
-                    </div>
-                    <ul className="popup-action">
-                        <li>
-                            <button onClick={() => this.setState({popupSwitch: false})}>Cancel</button>
-                        </li>
-                        <li>
-                            <Link to="/account?back=true">Sign in</Link>
-                        </li>
-                    </ul>
+                    <PopupCommon
+                        current_id  = {current_id}
+                        type        = {popupType}
+                        onCancel    = {() => this.setState({popupSwitch: false})}
+                    />
                 </Popup>
             </>
         );
@@ -124,6 +127,10 @@ class Info extends React.Component{
 
     componentDidMount() {
         const { og }               = this.state;
+        const { location, match }  = this.props;
+        const { pathname, search } = location;
+        const { id }               = match.params;
+        this.props.dispatch( views(pathname,{id}) );
         this.callAPI();
         this.setState({
             og: { 
@@ -145,112 +152,22 @@ class Info extends React.Component{
         const { location, match }  = this.props;
         const { pathname, search } = location;
         const { id }               = match.params;
-        this.props.dispatch( like(pathname,{ type: 'artists', id: id }) );
+        this.props.dispatch( like({query: {type: 'artists', id}}) );
         this.props.dispatch( ssrArtistsInfo(pathname,{...queryString.parse(search), albums_id: id}) );
     }
 
     callAction = ( actionType='', val={} ) => {
-        
-        const { location, match, jwtToken }  = this.props;
-        const { pathname, search } = location;
-        const artists_id           = match['params']['id'];
-        const toasterFunction      = ({status='failure' , status_text=''}) => {
-            toaster.notify( <div className={`toaster-status-block toaster-${status}`}>{status_text}</div> , {
-                position    : "bottom-right",
-                duration    : 3000
-            });
-        }
-
-        if( jwtToken!=undefined ){
-            switch( actionType ){
-                case 'playAll':
-                    // 播放全部
-                    break;
-
-                case 'collectionAlbums':
-                    // 收藏專去
-                    this.props.dispatch( collection(pathname,{ method: 'put', type: 'albums'},{id: val['_id']}) ).then( res => {
-                        let status      = 'failure';
-                        let status_text = 'Update failure';
-
-                        if( res['status']==200 ){
-                            status      = 'success';
-                            status_text = 'Update successful';
-                            this.props.dispatch( albumsArtists(pathname,{ id: artists_id, type: 'ARTISTS_OTHER_ARTISTS' }) );
-                        }
-
-                        toasterFunction({ status, status_text });
-                    });
-                    break;
-
-                case 'collectionSongs':
-                    // 收藏歌曲
-                    break;
-
-                case 'albumsLike':
-                    // 喜歡專輯
-                    break;
-
-                case 'albumsLikePlural':
-                    this.props.dispatch( likePlural(pathname,{...queryString.parse(search), method: 'put', type: 'albums'},{id: val['_id'], artists_id}) ).then( res => {
-
-                        let status      = 'failure';
-                        let status_text = 'Update failure';
-
-                        if( res['status']==200 ){
-                            status      = 'success';
-                            status_text = 'Update successful';
-                            this.props.dispatch( albumsArtists(pathname,{ id: artists_id, type: 'ARTISTS_OTHER_ARTISTS' }) );
-                        }
-
-                        toasterFunction({ status, status_text });
-                    });
-                    break;
-
-                case 'songsLike':
-                    // 喜歡歌曲
-                    break;
-
-                case 'artistsLike':
-                    // 喜歡歌手
-                    this.props.dispatch( like(pathname,{ method: 'put', type: 'artists'},{id: val['_id']}) ).then( res => {
-                        let status      = 'failure';
-                        let status_text = 'Update failure';
-
-                        if( res['status']==200 ){
-                            status      = 'success';
-                            status_text = 'Update successful';
-                        }
-
-                        toasterFunction({ status, status_text });
-                    });
-                    break;
-
-                case 'share':
-                    // 分享
-                    break;
-
-                case 'singlePlay':
-                    // 單曲播放
-                    this.props.dispatch( singlePlay(actionType, val) );
-                    break;
-
-                case 'playlistFolder':
-                    // 播放清單資料夾
-                    break;
-
-                case 'addPlaylist':
-                    // 加入播放清單
-                    this.props.dispatch( onPlayer(val) );
-                    break;
-            }
-
-            console.log( actionType, val );
-        }else{
+        const { dispatch, location, match, jwtToken }  = this.props;
+        const handleCallbackStatus = (val) => {
+            const { current_id="", type, status=false } = val;
             this.setState({
-                popupSwitch: true
+                current_id  : current_id,
+                popupType   : type,
+                popupSwitch : status
             })
         }
+
+        handleTool(handleCallbackStatus, {jwtToken, dispatch, location, match, actionType, val, source:'artists'})
     }
 }
 
@@ -258,12 +175,13 @@ const mapStateToProps = state => {
     return{
         info              : state.artists.artistsInfo,
         songs             : state.artists.artistsSong,
-        albums            : state.albums.otherAlbums,
+        otherAlbums       : state.albums.otherAlbums,
         mv                : state.artists.artistsMv,
         playlist          : state.playlist.list,
         commentId         : state.comment.id,
         comment           : state.comment.list,
-        jwtToken          : state.member.jwtToken
+        collectionsAlbums : state.collections.albums,
+        jwtToken          : state.member.jwtToken,
     }
 }
 

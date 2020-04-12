@@ -56,7 +56,6 @@ export const signUp = ({ method='post', query={}, data={} }) => {
         const url        = `${apiURL['member']['signup']}${search!=""? `?${search}`:''}`;
 
         return Axios({method, url, data}).then(res => {
-            console.log(res);
             return res;
         }).catch( err => err['response'] )
     }

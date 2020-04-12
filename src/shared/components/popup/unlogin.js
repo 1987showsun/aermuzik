@@ -14,7 +14,7 @@ export default ({ onCancel }) => {
             </div>
             <ul className="popup-action">
                 <li>
-                    <button onClick={() => onCancel(false)}>Cancel</button>
+                    <button onClick={onCancel}>Cancel</button>
                 </li>
                 <li>
                     <Link to="/account?back=true">Sign in</Link>

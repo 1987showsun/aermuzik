@@ -27,7 +27,8 @@ export default{
     'artists' : {
         'hito'    : `${API_ADDRESS()}/artists`,
         'list'    : `${API_ADDRESS()}/artists`,
-        'info'    : `${API_ADDRESS()}/artists/info`
+        'info'    : `${API_ADDRESS()}/artists/info`,
+        'views'   : `${API_ADDRESS()}/artists/views`
     },
     'songs'   : {
         'list'    : `${API_ADDRESS()}/songs`,

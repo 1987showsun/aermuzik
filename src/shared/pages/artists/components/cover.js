@@ -9,9 +9,9 @@ import { Link }                       from 'react-router-dom';
 import { FontAwesomeIcon }            from '@fortawesome/react-fontawesome';
 import { faPlay, faStar, faHeart, faEye, faShareAlt }from '@fortawesome/free-solid-svg-icons';
 
-const Cover = ({type='albums', data={}, collections={}, likesArtistsCount=0, callAction, likeStatus=false }) => {
+const Cover = ({type='albums', data={}, viewsArtistsCount, likesArtistsCount=0, callAction, likeStatus=false }) => {
 
-    const { _id, cover, name, intro, count, artists, artists_id } = data;
+    const { cover, name, intro, artists, artists_id } = data;
 
     return(
         <div className="row relative row-cover">
@@ -33,7 +33,7 @@ const Cover = ({type='albums', data={}, collections={}, likesArtistsCount=0, cal
                         </li>
                         <li>
                             <i><FontAwesomeIcon icon={faEye}/></i>
-                            <div className="statistics-value">{count}</div>
+                            <div className="statistics-value">{viewsArtistsCount}</div>
                         </li>
                     </ul>
                     <div className="desc" dangerouslySetInnerHTML={{__html: intro}} />
@@ -57,6 +57,7 @@ const Cover = ({type='albums', data={}, collections={}, likesArtistsCount=0, cal
 
 const mapStateToProps = state => {
     return{
+        viewsArtistsCount  : state.artists.viewsCount,
         likesArtistsCount  : state.likes.artistCount,
         likeStatus         : state.likes.likeStatus
     }

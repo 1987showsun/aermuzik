@@ -16,14 +16,14 @@ export default ({type="", current_id, onCancel}) => {
             return (
                 <PlaylistFolder
                     current_id  = {current_id}
-                    onClick     = {onCancel}
+                    onCancel    = {onCancel}
                 />
             );
 
         case "unLogin":
             return (
                 <Unlogin 
-                    onClick     = {onCancel}
+                    onCancel     = {onCancel}
                 />
             );
 
