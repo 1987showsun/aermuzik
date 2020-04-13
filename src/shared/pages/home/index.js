@@ -47,8 +47,9 @@ class Index extends React.Component{
             <>
                 <Helmet>
                     <title>{`AERMUZIK`}</title>
-                    <meta property="og:url"                content={og['url']} />
                     <meta property="og:type"               content="music" />
+                    <meta property="og:description"        content="Every day is a music day" />
+                    <meta property="og:image"              content="https://showtest.s3-ap-northeast-1.amazonaws.com/Users/showsun/common/fb.jpg" />
                 </Helmet>
                 <Kv />
                 <Albums />
