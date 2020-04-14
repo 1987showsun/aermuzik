@@ -28,37 +28,9 @@ const Tool = (props) => {
 
     const callAction = ( actionType='', val={} ) => {
         switch( actionType ){
-            case 'playAll':
-                // 播放全部
-                break;
-
-            case 'collectionAlbums':
-                // 收藏專去
-                break;
-
-            case 'collectionSongs':
-                // 收藏歌曲
-                break;
-
-            case 'albumsLike':
-                // 喜歡專輯
-                break;
-
-            case 'songsLike':
-                // 喜歡歌曲
-                break;
-
-            case 'share':
-                // 分享
-                break;
-
             case 'singlePlay':
                 // 單曲播放
                 props.dispatch( singlePlay(actionType, val) );
-                break;
-
-            case 'playlistFolder':
-                // 播放清單資料夾
                 break;
 
             case 'addPlaylist':

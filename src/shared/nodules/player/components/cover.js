@@ -7,21 +7,16 @@ import React,{ useState, useEffect }  from 'react';
 import { connect }                    from 'react-redux';
 import { Link }                       from 'react-router-dom';
 
-const Cover = (props) => {
-
-    const { current } = props;
+const Cover = ({ className="", current}) => {
     const [ stateCurrent, setStateCurrent ] = useState({});
     useEffect(()=>{
         setStateCurrent(current);
-        return ()=>{
-            setStateCurrent(current);
-        }
     },[current]);
 
     const { cover='', album='', name='' } = stateCurrent;
 
     return(
-        <div className="audio-col audio-cover">
+        <div className={`audio-col audio-cover ${className}`}>
             <figure className="now-play-cover">
                 <div className={`img ${cover==''? 'null':''}`}>
                     <img src={cover} alt={album} title="" />

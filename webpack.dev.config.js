@@ -4,14 +4,13 @@
  */
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const TerserPlugin         = require('terser-webpack-plugin');
-// const WorkboxWebpackPlugin    = require("workbox-webpack-plugin");
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+//const TerserPlugin         = require('terser-webpack-plugin');
 const path                 = require('path');
 const webpack              = require('webpack');
 const autoprefixer         = require('autoprefixer');
 const CopyWebpackPlugin    = require("copy-webpack-plugin");
 const { InjectManifest }   = require('workbox-webpack-plugin');
+const CompressionPlugin    = require("compression-webpack-plugin");
 const nodeExternals        = require('webpack-node-externals');
 
 const keyName= {};
@@ -87,9 +86,10 @@ const browserConfig = {
         to  : "public/assets"
       }
     ]),
+    new CompressionPlugin(),
     new MiniCssExtractPlugin({
       filename: "./css/[name].css"
-    }),
+    })
   ]
 };
 
@@ -133,20 +133,7 @@ const serverConfig = {
         query: { presets: ["react-app"] }
       }
     ]
-  },
-  plugins: [
-    new SWPrecacheWebpackPlugin(
-      {
-        cacheId                       : 'aermuzik',
-        filename                      : './public/sw.js',
-        maximumFileSizeToCacheInBytes : 1000194304,
-        runtimeCaching                : [{
-          handler                       : 'networkFirst',
-          urlPattern                    : '/'
-        }],
-      }
-    )
-  ]
+  }
 };
 
 module.exports = [browserConfig, serverConfig];

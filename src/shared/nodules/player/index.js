@@ -14,6 +14,8 @@ import Control                        from './components/control';
 import Tool                           from './components/tool';
 import Audio                          from './components/audio';
 import Volume                         from './components/volume';
+import MobilePlaylist                 from './components/mobilePlaylist';
+import MobileSubControl               from './components/mobileSubControl';
 
 // Actions
 import { singlePlay }                 from '../../actions/player';
@@ -23,10 +25,11 @@ import './public/stylesheets/style.scss';
 
 const Index = ({dispatch, current}) => {
 
-    const [ stateWindow     , setWindowStatus     ] = useState(false);
-    const [ stateAudioStatus, setStateAudioStatus ] = useState({});
-    const [ loopStatus      , setLoopStatus       ] = useState(0);
-    const [ changeAudioControl, setAudioControl   ] = useState('');
+    const [ stateShowPlaylist  , setShowPlaylist     ] = useState(false);
+    const [ stateWindow        , setWindowStatus     ] = useState(false);
+    const [ stateAudioStatus   , setStateAudioStatus ] = useState({});
+    const [ loopStatus         , setLoopStatus       ] = useState(0);
+    const [ changeAudioControl , setAudioControl     ] = useState('');
 
     useEffect(()=>{
         const windowResize = () => {
@@ -46,6 +49,20 @@ const Index = ({dispatch, current}) => {
 
     const unfold = () => {
         setWindowStatus( stateWindow? false:true );
+    }
+    const handleSubControl = ( actionType ) => {
+        console.log( actionType );
+        switch( actionType ){
+            case 'playlist':
+                setShowPlaylist( stateShowPlaylist? false:true );
+                break;
+
+            case 'lyrics':
+                break;
+
+            default:
+                break;
+        }
     }
 
     return(
@@ -77,9 +94,14 @@ const Index = ({dispatch, current}) => {
                     <div className={`audio-wrap-mobile ${stateWindow}`}>
                         <div className="audio-wrap-mobile-head" onClick={unfold.bind(this)}></div>
                         <Cover
+                            className    = {`mobile-cover ${stateShowPlaylist}`}
                             handleWindow = {(val)=>{ setWindowStatus(val) }}
                         />
-                        <Timeline audioStatus={stateAudioStatus}/>
+                        <MobilePlaylist
+                            showPlaylist = {stateShowPlaylist}
+                            className    = {stateShowPlaylist}
+                        />
+                        <Timeline audioStatus={stateAudioStatus} />
                         <Control
                             current       = {current}
                             audio         = {stateAudioStatus['audio']} 
@@ -90,6 +112,10 @@ const Index = ({dispatch, current}) => {
                         <Volume 
                             audioStatus = {stateAudioStatus}
                             stateWindow = {stateWindow}
+                        />
+                        <MobileSubControl 
+                            showPlaylist     = {stateShowPlaylist}
+                            handleSubControl = {handleSubControl}
                         />
                         <div className="background-cover" style={{"backgroundImage": `url(${current['cover']})`}}></div>
                     </div>

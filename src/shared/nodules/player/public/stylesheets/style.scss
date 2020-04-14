@@ -174,28 +174,24 @@
     bottom           : 65px;
     right            : 0px;
     visibility       : hidden;
-    .FreeScrollbar-container{
-        padding-right    : 17px !important;
-        padding-bottom   : 17px !important;
-    }
-    .FreeScrollbar-vertical-track {
-        width            : 5px !important;
-        padding          : 0px 2px;
-        border-left      : none !important;
-        background       : #000 !important;
-        visibility       : hidden;
-        z-index          : 3;
-        .FreeScrollbar-vertical-handler {
-            background             : #f36 !important;
-        }
-    }
     &.true{
         visibility       : initial;
     }
-    &:hover{
-        .FreeScrollbar-vertical-track {
-            visibility       : initial;
-        }
+}
+
+.FreeScrollbar-container{
+    padding-right    : 17px !important;
+    padding-bottom   : 17px !important;
+}
+.FreeScrollbar-vertical-track {
+    width            : 5px !important;
+    padding          : 0px;
+    border-left      : none !important;
+    background       :rgba(0, 0, 0, 0.465);
+    z-index          : 3;
+    border-radius    : 100px;
+    .FreeScrollbar-vertical-handler {
+        background             : #f36 !important;
     }
 }
 
@@ -365,6 +361,9 @@
             }
         }
     }
+    .sub-control, .mobile-playlist-wrap{
+        display: none;
+    }
     .background-cover{
         width               : 100%;
         height              : 100%;
@@ -410,7 +409,7 @@
         align-items       : center;
         justify-content   : center;
         position          : fixed;
-        padding           : 50px 20px 20px 20px;
+        padding           : 40px 20px 20px 20px;
         bottom            : 0px;
         .audio-col{
             margin-bottom     : 30px;
@@ -425,6 +424,7 @@
                 width               : 240px;
                 height              : 240px;
                 margin-bottom       : 20px;
+                transition          : all .4s;
             }
             figcaption{
                 h3{
@@ -433,11 +433,55 @@
                 }
                 h4{
                     text-align        : center;
+                    a{
+                        width             : 100%;
+                        display           : block;
+                        text-align        : center;
+                    }
+                }
+            }
+
+            
+        }
+        .audio-cover{
+            &.mobile-cover{
+                &.true{
+                    min-height: 95px;
+                    .now-play-cover{
+                        padding       : 15px 0px;
+                        flex-direction: row;
+                        border-bottom : 1px solid #222;
+                        .img{
+                            width               : 60px;
+                            min-width           : 60px;
+                            height              : 60px;
+                            margin-bottom       : 0px;
+                            margin-right        : 15px;
+                        }
+                        figcaption{
+                            align-items: flex-start;
+                            h3,h4{
+                                text-align: left;
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        .mobile-playlist-wrap{
+            height      : 0%;
+            margin-top  : -10px;
+            transition  : height .3s;
+            &.true{
+                height   : 100%;
+                display  : flex;
+            }
+        }
+
         .timeline-wrap, .volume-wrap{
             display           : flex;
+
         }
         .audio-wrap-mobile-head{
             height            : 40px;
@@ -448,6 +492,19 @@
                 height                 : 5px;
                 background             : rgba(255,255,255,.5);
                 border-radius          : 100px;
+            }
+        }
+        .sub-control{
+            margin-bottom: 0px;
+            display: flex;
+            ul{
+                justify-content: space-around;
+            }
+            button{
+                border-radius: 100px;
+                &.true{
+                    background-color: #f36;
+                }
             }
         }
         .background-cover{

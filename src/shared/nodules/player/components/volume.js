@@ -107,7 +107,7 @@ export default ({className='', stateWindow, audioStatus}) => {
     }
 
     return(
-        <div className={`volume-wrap ${className}`}>
+        <div className={`audio-col volume-wrap ${className}`}>
             <div className="volume-icon" onClick={volumeAction.bind(this,0)}>
                 <FontAwesomeIcon icon={faVolumeOff} />
             </div>

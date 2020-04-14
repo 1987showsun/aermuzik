@@ -172,6 +172,27 @@
             }
         }
     }
+    &.true{
+        background: #1d21355b !important;
+    }
+    &.pc-audio-song-items{
+        padding: 5px 0px;
+        .sort{
+            min-width     : 40px;
+            color         : #fff;
+            font-size     : 0.8rem;
+            margin-right  : 0px;
+        }
+    }
+    &.mobile-audio-song-items{
+        padding: 5px 0px;
+        .sort{
+            min-width     : 30px;
+            color         : #fff;
+            font-size     : 0.8rem;
+            margin-right  : 0px;
+        }
+    }
     @media (min-width: 421px) {
         &:hover{
             background: #22263c;
@@ -207,9 +228,6 @@
                 }
             }
         }
-    }
-    &.true{
-        background: #22263c;
     }
 }
 
