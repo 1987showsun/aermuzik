@@ -113,7 +113,7 @@ router.get('/views', ensureToken, (req, res, next) => {
     });
 });
 
-router.get('/artists',ensureToken ,function(req, res, next) {
+router.get('/artists', ensureToken, function(req, res, next) {
 
     const { id, current=1, limit=12 } = req.query;
     const displayQuantity = limit*current;
@@ -209,32 +209,51 @@ router.get('/', ensureToken, function(req, res, next) {
     });
 });
 
-router.get('/rankings', function(req, res, next) {
+router.get('/rankings', ensureToken, (req, res, next) => {
 
-    const lang      = req.query.lang          || "chinese";
-    const type      = req.query.type          || "";
-    const limit     = Number(req.query.limit) || 10;
+    const loginStatus  = jwt.verify(req.token, ' ',(err, data)=>{return data});
+    const { lang='chinese', type='', limit=10 } = req.query;
     let   find      = {};
+
     if( lang!='all' ){
         find = { ...find, lang: lang }
     }
 
-    database.collection('albums').find( find ).limit(limit).sort({like:-1}).toArray(function(err,allData){
+    console.log( 'loginStatus==>',loginStatus );
+    database.collection('albums').find( find ).limit(Number(limit)).sort({like:-1}).toArray(function(err,data){
         database.collection('artists').find().toArray(function(err,artistsData){
-            allData = allData.map( item => {
-                const artists = artistsData.filter( filterItem => {
-                    return String(filterItem['_id'])==String( item['artists_id'] );
-                })
-                return { ...item,artists: artists[0]['name'] }
-            });
+            database.collection('albumslike').find().toArray(function(err,albumslikeData){
+                database.collection('collection').find().toArray(function(err,collectionData){
 
-            res.json({
-                code        : 1,
-                msg         : "成功",
-                lang        : lang,
-                type        : type,
-                list        : allData
-            })
+                    data = data.filter(filterItem => filterItem['name']!="").map((dataItem)=>{
+                        const artistsFind = artistsData.find(singerItem => String(dataItem['artists_id'])==String(singerItem['_id']));
+                        if( loginStatus!=undefined ){
+                            const userId      = loginStatus!=undefined? loginStatus['_id'] : '';
+                            const userCollectionFind = collectionData.find( findItem => String(findItem['user_id'])==String(userId));
+                            const albumslikeFind     = albumslikeData.find( findItem => String(findItem['albums_id'])==String(dataItem['_id']));
+                            const likeStatus         = albumslikeFind['list'].some( someItem => String(someItem['user_id'])==String(userId));
+                            const collectionStatus   = userCollectionFind['albums'].some( someItem => String(someItem)==String(dataItem['_id']));
+                            dataItem = { 
+                                ...dataItem, 
+                                likeStatus       : likeStatus,
+                                collectionStatus : collectionStatus
+                            };
+                        }
+                        return {
+                            ...dataItem,
+                            artists : artistsFind['name']
+                        }
+                    });
+
+                    res.json({
+                        code        : 1,
+                        msg         : "成功",
+                        lang        : lang,
+                        type        : type,
+                        list        : data
+                    })
+                });
+            });
         });
     });
 });

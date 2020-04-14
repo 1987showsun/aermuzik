@@ -34,10 +34,11 @@ export const like = ({method="get", query={}, data={}}) => {
 export const likePlural = ({method='get', query={}, data={}}) => {
     return(dispatch) => {
 
-        const more       = query['more']   || 'false';
         const initQuery  = {};
         const search     = queryString.stringify({ ...initQuery, ...query });
         const url        = `${apiURL['like']['plural']}${search!=""? `?${search}`:''}`;
+
+        console.log( method,url,data );
 
         return Axios({method,url,data}).then( res => {
             return res;

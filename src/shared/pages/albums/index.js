@@ -114,7 +114,7 @@ class Index extends React.Component{
 
         const searchObject     = queryString.parse(this.props.location.search);
         const prevSearchObject = queryString.parse(prevProps.location.search);
-        let   isReload = false;
+        let   isReload         = false;
 
         if( Object.keys(searchObject).length>Object.keys(prevSearchObject).length ){
             isReload = Object.keys(searchObject).some( keys => searchObject[keys]!=prevSearchObject[keys] );
@@ -135,10 +135,9 @@ class Index extends React.Component{
 
     callAction = ( actionType='', val={} ) => {
 
-        const { location, match, jwtToken }  = this.props;
-        const { pathname, search } = location;
-        const artists_id           = match['params']['id'];
-        const toasterFunction      = ({status='failure' , status_text=''}) => {
+        const { location, jwtToken } = this.props;
+        const { pathname, search }   = location;
+        const toasterFunction        = ({status='failure' , status_text=''}) => {
             toaster.notify( <div className={`toaster-status-block toaster-${status}`}>{status_text}</div> , {
                 position    : "bottom-right",
                 duration    : 3000
@@ -174,7 +173,7 @@ class Index extends React.Component{
 
             case 'albumsLikePlural':
                 if( checkLoginStatus() ){
-                    this.props.dispatch( likePlural(pathname,{...queryString.parse(search), method: 'put', type: 'albums'},{id: val['_id']}) ).then( res => {
+                    this.props.dispatch( likePlural({method: 'put', query:{...queryString.parse(search), type: 'albums'}, data:{id: val['_id']}}) ).then( res => {
                         let status      = 'failure';
                         let status_text = 'Update failure';
 

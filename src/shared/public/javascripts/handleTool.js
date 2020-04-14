@@ -10,9 +10,11 @@ import queryString                                         from 'query-string';
 import { like, likePlural }                                from '../../actions/likes';
 import { info }                                            from '../../actions/albums';
 import { ssrArtistsInfo }                                  from '../../actions/artists';
+import { ssrRanking }                                      from '../../actions/ranking';
 import { collection }                                      from '../../actions/collection';
 import { onPlayer, singlePlay }                            from '../../actions/player';
 import { playlistFolder, playlistFolderExpand }            from '../../actions/member';
+
 
 
 export default (handleCallbackStatus, {jwtToken, dispatch, location, match, actionType, val, source="albums"}) => {
@@ -46,7 +48,15 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
                     if( res['status']==200 ){
                         status      = 'success';
                         status_text = 'Update successful';
-                        dispatch( info(pathname,{...queryString.parse(search), id: id}) );
+                        switch( source ){
+                            case 'albums':
+                                dispatch( info(pathname,{...queryString.parse(search), id: id}) );
+                                break;
+
+                            case 'ranking':
+                                dispatch( ssrRanking( pathname,{...queryString.parse(search)}) );
+                                break;
+                        }
                     }
 
                     toasterFunction({ status, status_text });
@@ -86,6 +96,13 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
 
                             case 'artists':
                                 dispatch( ssrArtistsInfo(pathname,{...queryString.parse(search)}) );
+                                break;
+
+                            case 'ranking':
+                                dispatch( ssrRanking( pathname,{...queryString.parse(search)}) );
+                                break;
+
+                            default:
                                 break;
                         }
                         

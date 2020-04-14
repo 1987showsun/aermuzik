@@ -151,7 +151,8 @@ class Signup extends React.Component{
 
     handleChange = (e) => {
         const { name, value } = e.target;
-        let   { formObject, city, zipCode, dist }  = this.state;
+        let   { formObject }  = this.state;
+        let   { city, zipCode, dist } = formObject;
         switch( name ){
             case 'city':
                 dist       = Object.keys(zip[value])[0];

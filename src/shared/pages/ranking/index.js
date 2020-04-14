@@ -16,8 +16,11 @@ import Albums                                              from './components/al
 // Actions
 import { ssrRanking }                                      from '../../actions/ranking';
 
+import handleTool                                          from '../../public/javascripts/handleTool';
+
 // Stylesheets
 import './public/stylesheets/style.scss';
+
 
 class Index extends React.Component{
 
@@ -49,7 +52,14 @@ class Index extends React.Component{
                 <Songs />
                 {
                     albumsRanking.map( keys => {
-                        return <Albums key={keys} title={`${keys} album ranking`} type={keys}/>
+                        return(
+                            <Albums
+                                key        = {keys} 
+                                type       = {keys}
+                                title      = {`${keys} album ranking`} 
+                                callAction = {this.callAction.bind(this)}
+                            />
+                        )
                     })
                 }
             </>
@@ -68,11 +78,28 @@ class Index extends React.Component{
             }
         })
     }
+
+    callAction = ( actionType='', val={} ) => {
+
+        console.log( actionType, val );
+        const { dispatch, location, match, jwtToken }  = this.props;
+
+        const handleCallbackStatus = (val) => {
+            const { current_id="", type, status=false } = val;
+            this.setState({
+                current_id  : current_id,
+                popupType   : type,
+                popupSwitch : status
+            })
+        }
+
+        handleTool(handleCallbackStatus, {jwtToken, dispatch, location, match, actionType, val, source:'ranking'})
+    }
 }
 
 const mapStateToProps = state => {
     return{
-
+        jwtToken          : state.member.jwtToken,
     }
 }
 

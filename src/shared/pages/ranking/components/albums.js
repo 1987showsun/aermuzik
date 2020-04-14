@@ -79,14 +79,11 @@ class Albums extends React.Component{
                 </div>
                 <Slider {...settings}>
                     {
-                        list.map( item => <AlbumsItem key={item['_id']} data={item} handleAction={this.callAction.bind(this)}/>)
+                        list.map( item => <AlbumsItem key={item['_id']} data={item} handleAction={this.props.callAction}/>)
                     }
                 </Slider>
             </div>
         );
-    }
-
-    callAction = ( actionType='', val={} ) => {
     }
 }
 
