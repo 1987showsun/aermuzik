@@ -9,7 +9,7 @@ import { connect }              from 'react-redux';
 // Components
 import SongsItem                from '../../../nodules/items/songs';
 
-const Songs = ({ songsPopularList=[], songsCollectionList=[] }) => {
+const Songs = ({ songsPopularList=[], songsCollectionList=[], callAction }) => {
     return(
         <div className="row">
             <div className="col">
@@ -18,7 +18,7 @@ const Songs = ({ songsPopularList=[], songsCollectionList=[] }) => {
                 </div>
                 <div className="row no-padding">
                     {
-                        songsPopularList.map( (item,i) => <SongsItem key={item['_id']} data={{...item, idx:i }}/> )
+                        songsPopularList.map( (item,i) => <SongsItem key={item['_id']} data={{...item, idx:i }} callAction={callAction}/> )
                     }
                 </div>
             </div>
@@ -28,7 +28,7 @@ const Songs = ({ songsPopularList=[], songsCollectionList=[] }) => {
                 </div>
                 <div className="row no-padding">
                     {
-                        songsCollectionList.map( (item,i) => <SongsItem key={item['_id']} data={{...item, idx:i}}/> )
+                        songsCollectionList.map( (item,i) => <SongsItem key={item['_id']} data={{...item, idx:i}} callAction={callAction}/> )
                     }
                 </div>
             </div>

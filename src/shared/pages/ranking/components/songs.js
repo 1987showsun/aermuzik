@@ -3,47 +3,38 @@
  *   All rights reserved.
  */
 
-import React from 'react';
+import React       from 'react';
 import { connect } from 'react-redux';
 
 // Modules
 import SongItem    from '../../../nodules/items/songs';
 
-class Songs extends React.Component{
-
-    constructor(props){
-        super(props);
-        this.state = {
-            list : []
-        }
-    }
-
-    static getDerivedStateFromProps(props,state){
-        return{
-            list : props.list
-        }
-    }
-
-    render(){
-
-        const { list } = this.state;
-
-        return(
-            <div className="row">
-                <div className="unit-head-wrap">
-                    <h2>Songs ranking</h2>
-                </div>
-                {
-                    list.map((item,i) => <SongItem key={item['_id']} data={{...item,idx:i}} /> )
-                }
+const Songs = ({ callAction, playlist, list=[] }) => {
+    return(
+        <div className="row">
+            <div className="unit-head-wrap">
+                <h2>Songs ranking</h2>
             </div>
-        );
-    }
+            {
+                list.map((item,i) => {
+                    return(
+                        <SongItem 
+                            key         = {item['_id']} 
+                            data        = {{...item,idx:i}}
+                            playlist    = {playlist.map( item => item['_id'] )}
+                            callAction  = {callAction}
+                        />
+                    )
+                })
+            }
+        </div>
+    );
 }
 
 const mapStateToProps = state => {
     return{
-        list : state.home.songsPopularList
+        playlist   : state.playlist.list,
+        list       : state.home.songsPopularList
     }
 }
 

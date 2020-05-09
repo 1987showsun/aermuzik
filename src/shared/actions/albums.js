@@ -140,7 +140,7 @@ const Axios = ({method='get', url='', data={}}) => {
         method   : method,
         url      : url,
         data     : data,
-        headers:{
+        headers : {
             authorization: typeof window !== 'undefined'? `Basic ${sessionStorage.getItem('jwtToken')}` : '',
         }
     });

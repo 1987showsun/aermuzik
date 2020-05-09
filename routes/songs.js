@@ -13,38 +13,28 @@ const router            = express.Router();
 let   datetime          = new Date();
 let   database;
 
-MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: true }, function(err,client ) {
+MongoClient.connect(guessbase_url,{ useNewUrlParser: true }, function(err,client ) {
     database = client.db('music');
 });
-
-const checkLoginStatus = (token) => {
-    const loginStatus   = jwt.verify(token, ' ',(err, data)=>{return data});
-    if(loginStatus==undefined){
-        res.status(400).json({
-            status : 200,
-            status_text : 'you are not logged on'
-        });
-        return false;
-    }
-    return loginStatus;
-}
   
 const ensureToken = (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
     if (typeof bearerHeader !== 'undefined') {
-        const bearer = bearerHeader.split(" ");
-        const bearerToken = bearer[1];
-        req.token = bearerToken;
-        next();
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next();
     } else {
-        res.sendStatus(403);
+    res.sendStatus(403);
     }
 }
 
-router.get('/rankings',ensureToken , (req, res, next) => {
-
-    const loginStatus     = jwt.verify(req.token, ' ',(err, data)=>{return data});
-    const { actionType="", sortKey="like", sortVal=-1, limit=10 } = req['query'];
+router.get('/rankings',ensureToken ,function(req, res, next) {
+    const loginStatus   = jwt.verify(req.token, ' ',(err, data)=>{return data});
+    const type          = req.query.actionType   || "";
+    const sortKey       = req.query.sortKey      || 'like';
+    const sortVal       = req.query.sortVal      || '-1';
+    const limit         = req.query.limit        || 10;
 
     database.collection('songs').find({}).sort({[sortKey]:Number(sortVal)}).limit( Number(limit) ).toArray(function(err,songDataAll){
         database.collection('albums').find().toArray(function(err,albumData){
@@ -62,15 +52,20 @@ router.get('/rankings',ensureToken , (req, res, next) => {
                             return aItem['name'];
                         }
                     })
-                    delete item['src'];
-                    delete item['src_general'];
+
+                    if( loginStatus!=undefined ){
+                        delete item['src_general'];
+                    }else{
+                        item = { ...item, src: item['src_general'] }
+                        delete item['src_general'];
+                    }
                     return item = { ...item, cover: albums[0]['cover'] || "",album: albums[0]['name'], artists: artists[0]['name'] || ""  };
                 });
 
                 res.json({
                     code    : 1,
                     msg     : "成功",
-                    type    : actionType,
+                    type    : type,
                     list    : songDataAll
                 });
 
@@ -79,8 +74,9 @@ router.get('/rankings',ensureToken , (req, res, next) => {
     });
 });
 
-router.get('/', ensureToken, (req, res, next) => {
+router.get('/',ensureToken ,function(req, res, next) {
 
+    const loginStatus   = jwt.verify(req.token, ' ',(err, data)=>{return data});
     const artists_id    = req.query.artists_id;
     const current       = req.query.current;
     const limit         = 10;
@@ -102,8 +98,13 @@ router.get('/', ensureToken, (req, res, next) => {
                             return aItem['cover'];
                         }
                     });
-                    delete item['src'];
-                    delete item['src_general'];
+                    if( loginStatus!=undefined ){
+                        delete item['src_general'];
+                    }else{
+                        item = { ...item, src: item['src_general'] }
+                        delete item['src_general'];
+                    }
+
                     return item = { ...item, cover:albums[0]['cover'], album: albums[0]['name'] }
                 })
                 
@@ -118,25 +119,6 @@ router.get('/', ensureToken, (req, res, next) => {
             });
         });
     });
-});
-
-router.get('/src', ensureToken , (req, res, next) => {
-    const token = checkLoginStatus(req.token);
-    if( token ){
-        const { songs_id } = req['query'];
-        database.collection('songs').find({ _id: ObjectId(songs_id) }).toArray(function(err, data){
-            if( data.length>0 ){
-                const { src="" } = data[0];
-                res.json({
-                    src: src
-                })
-            }else{
-                res.json({
-                    src: ""
-                })
-            }
-        });
-    }
 });
 
 module.exports = router;

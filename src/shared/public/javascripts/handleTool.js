@@ -14,6 +14,7 @@ import { ssrRanking }                                      from '../../actions/r
 import { collection }                                      from '../../actions/collection';
 import { onPlayer, singlePlay }                            from '../../actions/player';
 import { playlistFolder, playlistFolderExpand }            from '../../actions/member';
+import { ssrHome }                                         from '../../actions/home';
 
 
 
@@ -49,6 +50,10 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
                         status      = 'success';
                         status_text = 'Update successful';
                         switch( source ){
+                            case 'home':
+                                dispatch( ssrHome( pathname,{...queryString.parse(search)}) );
+                                break;
+
                             case 'albums':
                                 dispatch( info(pathname,{...queryString.parse(search), id: id}) );
                                 break;
@@ -90,6 +95,10 @@ export default (handleCallbackStatus, {jwtToken, dispatch, location, match, acti
                         status      = 'success';
                         status_text = 'Update successful';
                         switch( source ){
+                            case 'home':
+                                dispatch( ssrHome( pathname,{...queryString.parse(search)}) );
+                                break;
+
                             case 'albums':
                                 dispatch( info(pathname,{...queryString.parse(search), id: id}) );
                                 break;

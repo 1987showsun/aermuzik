@@ -29,13 +29,24 @@ export const songsList = (pathname,query={},data={}) => {
     }
 }
 
-const Axios = ( api ) => {
+export const getSongSrc = ({ method='get',query={}, data={} }) => {
+    return( dispatch ) => {
+        const initQuery = {};
+        const search    = queryString.stringify({ ...initQuery, ...query });
+        const url       = `${apiURL['songs']['src']}${search!=''? `?${search}`:''}`;
+        return Axios({method, url, data}).then(res => {
+            return res;
+        }).catch( err => err['response'] );
+    }
+}
+
+const Axios = ({ method="get", url="", data={} }) => {
     return axios({
-        method   : api['method'],
-        url      : api['url'],
-        data     : api['data'],
-        headers:{
-            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
+        method   : method,
+        url      : url,
+        data     : data,
+        headers  : {
+            authorization: typeof window !== 'undefined'? `Basic ${sessionStorage.getItem('jwtToken')}` : '',
         }
     });
 }

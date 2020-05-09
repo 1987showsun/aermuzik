@@ -113,8 +113,8 @@ const Axios = ( api ) => {
         method   : api['method'],
         url      : api['url'],
         data     : api['data'],
-        headers:{
-            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
+        headers  : {
+            authorization: typeof window !== 'undefined'? `Basic ${sessionStorage.getItem('jwtToken')}` : '',
         }
     });
 }

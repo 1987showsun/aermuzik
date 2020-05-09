@@ -13,7 +13,7 @@ const router            = express.Router();
 let   datetime          = new Date();
 let   database;
 
-MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: true }, function(err,client ) {
+MongoClient.connect(guessbase_url,{ useNewUrlParser: true }, function(err,client ) {
     database = client.db('music');
 });
 
@@ -185,8 +185,6 @@ router.delete('/info',ensureToken, function(req, res, next) {
                                     return aItem['cover'];
                                 }
                             });
-                            delete item['src'];
-                            delete item['src_general'];
                             return item = { ...item,"cover":albums[0]['cover'] }
                         })
 

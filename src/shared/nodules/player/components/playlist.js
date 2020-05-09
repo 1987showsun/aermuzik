@@ -10,10 +10,8 @@ import FreeScrollBar                  from 'react-free-scrollbar';
 // Modules
 import SongItem                       from '../../../nodules/items/songs';
 
-const Playlist = ({ className="", list=[], playlistWrapStatus='', current, callAction }) => {
-
-    const [ stateList, setStateList ] = useState([]);
-
+const Playlist = ({list=[], playlistWrapStatus='', current, callAction }) => {
+    const [ stateList, setStateList ] = useState([])
     useEffect(()=>{
         setStateList([...list]);
         return ()=>{
@@ -21,23 +19,19 @@ const Playlist = ({ className="", list=[], playlistWrapStatus='', current, callA
         }
     },[list]);
 
-    const searchCurrentSong = useCallback(( val )=>{
+    const dddd = useCallback(( val )=>{
         return String(val['_id'])==String(current['_id']);
     },[current['_id']]);
 
     return(
         <div className={`playlist-wrap ${playlistWrapStatus}`}>
-            <FreeScrollBar
-                autohide                 = {true}
-                fixed                    = {true}
-                onScrollbarScrollTimeout = {0}
-            >
+            <FreeScrollBar>
                 {
                     stateList.length!=0? (
                         stateList.map((item,i) => {
                             return(
                                 <SongItem
-                                    className  = {`pc-audio-song-items ${className} ${searchCurrentSong(item)}`}
+                                    className  = {`${dddd(item)}`}
                                     key        = {`${item['_id']}`} 
                                     data       = {{...item,idx:i}} 
                                     callAction = {callAction}

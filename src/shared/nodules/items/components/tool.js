@@ -3,60 +3,42 @@
  *   All rights reserved.
  */
 
-import React                 from 'react';
-import { FontAwesomeIcon }   from '@fortawesome/react-fontawesome';
-import { faEllipsisH }       from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, useRef }    from 'react';
+import { FontAwesomeIcon }                       from '@fortawesome/react-fontawesome';
+import { faEllipsisH }                           from '@fortawesome/free-solid-svg-icons';
 
 
 // Stylesheets
 import '../public/stylesheets/tool.scss';
 
-export default class Tool extends React.Component{
+export default ({ children }) => {
 
-    constructor(props){
-        super(props);
-        this.tool = React.createRef();
-        this.state = {
-            open : false
+    const toolREF = useRef(null);
+    const [ stateWindowDisplay, setWindowDisplay  ] = useState(false);
+    const handleWindowDisplayAction = (e) => {
+        if( stateWindowDisplay){
+            setWindowDisplay(false);
         }
     }
 
-    render(){
+    useEffect(() => {
+        window.addEventListener('click', handleWindowDisplayAction, false);
+        return() => {
+            window.removeEventListener('click', handleWindowDisplayAction, false);
+        }
+    },[handleWindowDisplayAction]);
+    
 
-        const { children } = this.props;
-        const { open }     = this.state;
-
-        return(
-            <div ref={this.tool} tabIndex={1} className={`tool-wrap ${open}`}>
-                <div className="tool-switch" onClick={this.toolWrapOpenStatus.bind(this)}>
-                    <i><FontAwesomeIcon icon={faEllipsisH}/></i>
-                </div>
-                <div className="tool-select">
-                    <ul>
-                        { children }
-                    </ul>
-                </div>
+    return(
+        <div ref={toolREF} className={`tool-wrap ${stateWindowDisplay}`} >
+            <div className="tool-switch" onClick={() => setWindowDisplay(true)}>
+                <i><FontAwesomeIcon icon={faEllipsisH}/></i>
             </div>
-        );
-    }
-
-    componentDidMount() {
-        document.addEventListener('click', this.onClickOutsideHandler.bind(this));
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('click', this.onClickOutsideHandler.bind(this));
-    }
-
-    toolWrapOpenStatus = () => {
-        this.setState({
-            open : true
-        })
-    }
-
-    onClickOutsideHandler = (e) => {
-        if (this.state.open && !this.tool.current.contains(e.target)) {
-            this.setState({ open: false });
-        }
-    }
+            <div className="tool-select">
+                <ul>
+                    { children }
+                </ul>
+            </div>
+        </div>
+    );
 }

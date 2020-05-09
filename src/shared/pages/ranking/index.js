@@ -6,12 +6,14 @@
 import React                                               from 'react';
 import queryString                                         from 'query-string';
 import { connect }                                         from 'react-redux';
+import { Link }                                            from 'react-router-dom';
 import { Helmet }                                          from "react-helmet";
 
 // Components
 import Head                                                from './components/head';
 import Songs                                               from './components/songs';
 import Albums                                              from './components/albums';
+import Popup                                               from '../../nodules/popup';
 
 // Actions
 import { ssrRanking }                                      from '../../actions/ranking';
@@ -31,7 +33,8 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            albumsRanking: ['chinese','japanese','korean','western','soundtrack'],
+            popupSwitch          : false,
+            albumsRanking        : ['chinese','japanese','korean','western','soundtrack'],
             og                   : {
                 url                  : ""
             }
@@ -40,7 +43,7 @@ class Index extends React.Component{
 
     render(){
 
-        const { albumsRanking, og } = this.state;
+        const { popupSwitch, albumsRanking, og } = this.state;
 
         return(
             <>
@@ -48,8 +51,12 @@ class Index extends React.Component{
                     <title>AERMUZIK - Ranking</title>
                     <meta property="og:url"                content={og['url']} />
                 </Helmet>
-                <Head />
-                <Songs />
+                <Head 
+                    callAction = {this.callAction.bind(this)}
+                />
+                <Songs 
+                    callAction = {this.callAction.bind(this)}
+                />
                 {
                     albumsRanking.map( keys => {
                         return(
@@ -62,6 +69,23 @@ class Index extends React.Component{
                         )
                     })
                 }
+                <Popup 
+                    className   = "wrong-popup"
+                    popupSwitch = {popupSwitch}
+                    onCancel    = {() => this.setState({popupSwitch: false})}
+                >
+                    <div className="popup-content">
+                        <p>Member not logged in, please go to login</p>
+                    </div>
+                    <ul className="popup-action">
+                        <li>
+                            <button onClick={() => this.setState({popupSwitch: false})}>Cancel</button>
+                        </li>
+                        <li>
+                            <Link to="/account?back=true">Sign in</Link>
+                        </li>
+                    </ul>
+                </Popup>
             </>
         );
     }
@@ -81,7 +105,6 @@ class Index extends React.Component{
 
     callAction = ( actionType='', val={} ) => {
 
-        console.log( actionType, val );
         const { dispatch, location, match, jwtToken }  = this.props;
 
         const handleCallbackStatus = (val) => {

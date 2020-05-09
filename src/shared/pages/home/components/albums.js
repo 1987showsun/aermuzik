@@ -51,7 +51,7 @@ const slideSetting = {
         }
     ]
 }
-const Albums = ({ list=[] }) => {
+const Albums = ({ list=[], callAction }) => {
     return(
         <div className="row">
             <div className="unit-head-wrap">
@@ -60,7 +60,7 @@ const Albums = ({ list=[] }) => {
             <Slider {...slideSetting}>
                 {
                     list.map( item => {
-                        return <AlbumsItem key={item['_id']} data={item} />;
+                        return <AlbumsItem key={item['_id']} data={item} handleAction={callAction}/>;
                     })
                 }
             </Slider>
