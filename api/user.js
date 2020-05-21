@@ -17,7 +17,7 @@ MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: t
     database = client.db('music');
 });
 
-const checkLoginStatus = (token) => {
+const checkLoginStatus = (token, res) => {
     const loginStatus   = jwt.verify(token, ' ',(err, data)=>{return data});
     if(loginStatus==undefined){
         res.status(400).json({
@@ -191,7 +191,7 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.get('/info', ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
         const { _id, username }      = token;
         database.collection('user').find({ username }).toArray(function(err,data){
@@ -604,7 +604,7 @@ router.get('/playlist',ensureToken, function(req, res, next) {
 });
 
 router.get('/playlist/expand',ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
         const { _id }      = token;
         database.collection('playlist').find({'user_id':ObjectId(_id)}).toArray(function(err, data){
@@ -620,7 +620,7 @@ router.get('/playlist/expand',ensureToken, function(req, res, next) {
 });
 
 router.put('/playlist/expand',ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
         const { _id }                = token;
         const { folder_id, song_id } = req.body;
@@ -652,7 +652,7 @@ router.put('/playlist/expand',ensureToken, function(req, res, next) {
 });
 
 router.post('/playlist',ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
 
         const { _id  } = token;
@@ -677,7 +677,7 @@ router.post('/playlist',ensureToken, function(req, res, next) {
 });
 
 router.put('/playlist',ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
 
         const { id, name } = req['body'];
@@ -700,7 +700,7 @@ router.put('/playlist',ensureToken, function(req, res, next) {
 });
 
 router.delete('/playlist',ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
         const { id }  = req['query'];
         const { _id } = token;
@@ -730,7 +730,7 @@ router.delete('/playlist',ensureToken, function(req, res, next) {
 });
 
 router.get('/playlistDetail',ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
 
         const { _id } = token;
@@ -770,7 +770,7 @@ router.get('/playlistDetail',ensureToken, function(req, res, next) {
 });
 
 router.get('/like/song',ensureToken, function(req, res, next) {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
         let { _id } = token;
 
@@ -930,7 +930,7 @@ router.put('/like',ensureToken, function(req, res, next) {
 });
 
 router.put('/changeCover', ensureToken, (req, res, next)=>{    
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
 
         const { _id }      = token;

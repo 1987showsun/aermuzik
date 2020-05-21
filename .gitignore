@@ -2,6 +2,7 @@ node_modules
 
 /public
 /mongo
+/lrc
 /Dockerfile
 /stting
 /server.js

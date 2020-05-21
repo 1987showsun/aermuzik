@@ -17,7 +17,7 @@ MongoClient.connect(guessbase_url,{ useNewUrlParser: true, useUnifiedTopology: t
     database = client.db('music');
 });
 
-const checkLoginStatus = (token) => {
+const checkLoginStatus = (token, res) => {
     const loginStatus   = jwt.verify(token, ' ',(err, data)=>{return data});
     if(loginStatus==undefined){
         res.status(400).json({
@@ -43,9 +43,7 @@ const ensureToken = (req, res, next) => {
 
 router.get('/rankings',ensureToken , (req, res, next) => {
 
-    const loginStatus     = jwt.verify(req.token, ' ',(err, data)=>{return data});
     const { actionType="", sortKey="like", sortVal=-1, limit=10 } = req['query'];
-
     database.collection('songs').find({}).sort({[sortKey]:Number(sortVal)}).limit( Number(limit) ).toArray(function(err,songDataAll){
         database.collection('albums').find().toArray(function(err,albumData){
             database.collection('artists').find().toArray(function(err,artistsData){
@@ -94,7 +92,7 @@ router.get('/', ensureToken, (req, res, next) => {
 
     database.collection('songs').find( find ).toArray(function(err,songDataAll){
         database.collection('songs').find( find ).sort({like:-1}).skip(0).limit( limit*Number(current) ).toArray(function(err,songData){
-            database.collection('albums').find().toArray(function(err,albumData){
+            database.collection('albums').find({}).toArray(function(err,albumData){
 
                 songData = songData.map( item => {
                     const albums = albumData.filter((aItem)=>{
@@ -105,7 +103,9 @@ router.get('/', ensureToken, (req, res, next) => {
                     delete item['src'];
                     delete item['src_general'];
                     return item = { ...item, cover:albums[0]['cover'], album: albums[0]['name'] }
-                })
+                });
+
+                
                 
                 res.json({
                     code     : 1,
@@ -121,7 +121,7 @@ router.get('/', ensureToken, (req, res, next) => {
 });
 
 router.get('/src', ensureToken , (req, res, next) => {
-    const token = checkLoginStatus(req.token);
+    const token = checkLoginStatus(req.token, res);
     if( token ){
         const { songs_id } = req['query'];
         database.collection('songs').find({ _id: ObjectId(songs_id) }).toArray(function(err, data){
@@ -138,5 +138,25 @@ router.get('/src', ensureToken , (req, res, next) => {
         });
     }
 });
+
+router.get('/lrc', ensureToken , (req, res, next) => {
+    const token = checkLoginStatus(req.token, res);
+    if( token ){
+        const { songs_id } = req['query'];
+        database.collection('songLyric').find({ songs_id: ObjectId(songs_id) }).toArray(function(err, data){
+            if( data.length>0 ){
+                const { src="" } = data[0];
+                res.json({
+                    src: src
+                })
+            }else{
+                res.json({
+                    src: ""
+                })
+            }
+        });
+    }
+});
+
 
 module.exports = router;

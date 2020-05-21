@@ -2,6 +2,7 @@
  *   Copyright (c) 2020 
  *   All rights reserved.
  */
+/*jshint esversion: 6 */
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { connect }                    from 'react-redux';
@@ -13,32 +14,14 @@ import SongItem                       from '../../../nodules/items/songs';
 // Actions
 import { onPlayer, singlePlay }       from '../../../actions/player';
 
-const Playlist = ({ dispatch, className, showPlaylist, list=[], current }) => {
+const Playlist = ({ dispatch, className, display=false, list=[], current }) => {
 
-    const [ playlistSwitch , setplaylistSwitch ] = useState(showPlaylist);
+    const [ playlistSwitch , setplaylistSwitch ] = useState(display);
     const [ stateList      , setStateList      ] = useState([]);
 
-    useEffect(()=>{
-        setStateList([...list]);
-        return ()=>{
-            setStateList([...list]);
-        }
-    },[list]);
-
-    useEffect(()=> {
-        if( showPlaylist ){
-            const timer = setTimeout(() => {
-                setplaylistSwitch(showPlaylist);
-            },400);
-            return () => clearTimeout(timer);
-        }else{
-            setplaylistSwitch(showPlaylist);
-        }
-    },[showPlaylist]);
-
     const searchCurrentSong = useCallback(( val )=>{
-        return String(val['_id'])==String(current['_id']);
-    },[current['_id']]);
+        return String(val._id)==String(current._id);
+    },[current._id]);
 
     const callAction = ( actionType='', val={} ) => {
         switch( actionType ){
@@ -54,8 +37,23 @@ const Playlist = ({ dispatch, className, showPlaylist, list=[], current }) => {
         }
     }
 
+    useEffect(()=>{
+        setStateList([...list]);
+    },[list]);
+
+    useEffect(()=> {
+        if( display ){
+            const timer = setTimeout(() => {
+                setplaylistSwitch(display);
+            },400);
+            return () => clearTimeout(timer);
+        }else{
+            setplaylistSwitch(display);
+        }
+    },[display]);
+
     return(
-        <div className={`audio-col mobile-playlist-wrap ${className}`}>
+        <div className={`audio-col mobile-playlist-wrap ${className}`} data-display={display}>
             {
                 playlistSwitch &&
                     <FreeScrollBar

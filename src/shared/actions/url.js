@@ -33,7 +33,8 @@ export default{
     'songs'   : {
         'list'    : `${API_ADDRESS()}/songs`,
         'popular' : `${API_ADDRESS()}/songs/rankings`,
-        'src'     : `${API_ADDRESS()}/songs/src`
+        'src'     : `${API_ADDRESS()}/songs/src`,
+        'lrc'     : `${API_ADDRESS()}/songs/lrc`
     },
     'mv'      : {
         'list'    : `${API_ADDRESS()}/video`,

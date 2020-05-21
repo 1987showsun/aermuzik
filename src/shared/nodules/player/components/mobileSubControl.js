@@ -7,12 +7,12 @@ import React from 'react';
 import { FontAwesomeIcon }               from '@fortawesome/react-fontawesome';
 import { faCommentAlt, faListUl }from '@fortawesome/free-solid-svg-icons';
 
-export default ({ showPlaylist, handleSubControl }) => {
+export default ({ showLyrics, showPlaylist, handleSubControl }) => {
     return(
         <div className="audio-col sub-control">
             <ul>
                 <li>
-                    <button onClick={handleSubControl.bind(this,'lyrics')}>
+                    <button className={`${showLyrics}`} onClick={handleSubControl.bind(this,'lyrics')}>
                         <FontAwesomeIcon icon={faCommentAlt} />
                     </button>
                 </li>

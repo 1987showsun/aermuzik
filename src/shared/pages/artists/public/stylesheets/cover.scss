@@ -154,8 +154,13 @@
             h1{
                 font-size         : 1.4rem;
             }
-            .desc{
-                display           : none;
+            >div{
+                &.artists-name{
+                    justify-content   : center;
+                }
+                &.desc{
+                    display           : none;
+                }
             }
             ul{
                 &.action{
@@ -206,7 +211,7 @@
             }
             >div{
                 &.artists-name{
-                    justify-content: center;
+                    justify-content   : center;
                 }
                 &.desc{
                     display           : none;

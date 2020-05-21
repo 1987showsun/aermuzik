@@ -4,10 +4,10 @@
  */
 
 import React,{ useEffect, useRef }  from 'react';
-import { connect }                   from 'react-redux';
+import { connect }                  from 'react-redux';
 
 // Actions
-import { getSongSrc }                from '../../../actions/songs';
+import { getSongSrc, getSongLrc }   from '../../../actions/songs';
 
 const Audio = ({dispatch, loop, current, audioStatus, actionType, headleCurrentSong}) => {
 
@@ -92,6 +92,7 @@ const Audio = ({dispatch, loop, current, audioStatus, actionType, headleCurrentS
             }
         }
 
+        dispatch( getSongLrc({ query: { songs_id } }) );
         dispatch( getSongSrc({ query: { songs_id } }) ).then( res => {
             audioSetting({ src: res['data']['src'] });
         });

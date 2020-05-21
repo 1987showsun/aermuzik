@@ -8,6 +8,8 @@ export default (
         list        : [],
         actionType  : null,
         current     : {},
+        lrcSrc      : "",
+        lyric       : []
     },
     action
 ) => {
@@ -25,6 +27,14 @@ export default (
                 actionType : action.actionType,
                 current    : action.current 
             };
+            break;
+
+        case 'SONG_SET_LRC':
+            state = {
+                ...state,
+                lrcSrc : action.src,
+                lyric  : action.lyric
+            }
             break;
 
         default:

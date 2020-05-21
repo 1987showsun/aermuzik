@@ -15,6 +15,7 @@ import Tool                           from './components/tool';
 import Audio                          from './components/audio';
 import Volume                         from './components/volume';
 import MobilePlaylist                 from './components/mobilePlaylist';
+import MobileLyric                    from './components/mobileLyric';
 import MobileSubControl               from './components/mobileSubControl';
 
 // Actions
@@ -26,6 +27,7 @@ import './public/stylesheets/style.scss';
 const Index = ({dispatch, current}) => {
 
     const [ stateShowPlaylist  , setShowPlaylist     ] = useState(false);
+    const [ stateShowLyrics    , setShowLyrics       ] = useState(false);
     const [ stateWindow        , setWindowStatus     ] = useState(false);
     const [ stateAudioStatus   , setStateAudioStatus ] = useState({});
     const [ loopStatus         , setLoopStatus       ] = useState(0);
@@ -51,13 +53,15 @@ const Index = ({dispatch, current}) => {
         setWindowStatus( stateWindow? false:true );
     }
     const handleSubControl = ( actionType ) => {
-        console.log( actionType );
+        setShowLyrics(false);
+        setShowPlaylist(false);
         switch( actionType ){
             case 'playlist':
                 setShowPlaylist( stateShowPlaylist? false:true );
                 break;
 
             case 'lyrics':
+                setShowLyrics( stateShowLyrics? false:true );
                 break;
 
             default:
@@ -94,12 +98,18 @@ const Index = ({dispatch, current}) => {
                     <div className={`audio-wrap-mobile ${stateWindow}`}>
                         <div className="audio-wrap-mobile-head" onClick={unfold.bind(this)}></div>
                         <Cover
-                            className    = {`mobile-cover ${stateShowPlaylist}`}
+                            className    = {`mobile-cover ${stateShowPlaylist} ${stateShowLyrics}`}
                             handleWindow = {(val)=>{ setWindowStatus(val) }}
                         />
                         <MobilePlaylist
+                            display      = {stateShowPlaylist}
                             showPlaylist = {stateShowPlaylist}
                             className    = {stateShowPlaylist}
+                        />
+                        <MobileLyric 
+                            display      = {stateShowLyrics}
+                            className    = {stateShowLyrics}
+                            audioStatus  = {stateAudioStatus}
                         />
                         <Timeline audioStatus={stateAudioStatus} />
                         <Control
@@ -114,6 +124,7 @@ const Index = ({dispatch, current}) => {
                             stateWindow = {stateWindow}
                         />
                         <MobileSubControl 
+                            showLyrics       = {stateShowLyrics}
                             showPlaylist     = {stateShowPlaylist}
                             handleSubControl = {handleSubControl}
                         />

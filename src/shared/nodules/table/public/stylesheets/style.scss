@@ -14,19 +14,39 @@
             display                    : table-row;
             &:nth-child(even){
                 background                 : #1a1f2e;
+                >div{
+                    &.action{
+                        background                 : #1a1f2e;
+                    }
+                }
+            }
+            &:nth-child(odd){
+                background                 : #131823;
+                >div{
+                    &.action{
+                        background                 : #131823;
+                    }
+                }
             }
             &.table-head{
                 background                 : #0b0f19;
                 border-bottom              : 2px solid #3e4c6f;
+                >div{
+                    background: #0b0f19 !important;
+                }
             }
             >div{
                 padding                    : 15px 5px;
                 display                    : table-cell;
                 font-size                  : 0.9rem;
                 vertical-align             : middle;
+                white-space                : nowrap;
                 &.sort{
                     width                  : 55px;
                     text-align             : center;
+                }
+                &.name{
+                    min-width              : 200px;
                 }
                 &.date{
                     width                  : 140px;

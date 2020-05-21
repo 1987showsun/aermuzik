@@ -53,7 +53,7 @@ const Item =  ({dispatch, location, handlePopup, match, item}) => {
     return(
         <>
             <div className="sort">{sort}</div>
-            <div className=""><Link to={`/myaccount/playlist/${_id}`}>{name}</Link></div>
+            <div className="name"><Link to={`/myaccount/playlist/${_id}`}>{name}</Link></div>
             <div className="date">{date}</div>
             <div className="action">
                 <ul>
