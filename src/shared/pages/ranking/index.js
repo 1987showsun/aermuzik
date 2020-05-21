@@ -13,6 +13,9 @@ import { Helmet }                                          from "react-helmet";
 import Head                                                from './components/head';
 import Songs                                               from './components/songs';
 import Albums                                              from './components/albums';
+import PopupCommon                                         from '../../components/popup';
+
+// Modules
 import Popup                                               from '../../nodules/popup';
 
 // Actions
@@ -23,6 +26,8 @@ import handleTool                                          from '../../public/ja
 // Stylesheets
 import './public/stylesheets/style.scss';
 
+// Lang
+import lang from '../../../server/public/lang/common.json';
 
 class Index extends React.Component{
 
@@ -34,6 +39,8 @@ class Index extends React.Component{
         super(props);
         this.state = {
             popupSwitch          : false,
+            current_id           : "",
+            popupType            : "",
             albumsRanking        : ['chinese','japanese','korean','western','soundtrack'],
             og                   : {
                 url                  : ""
@@ -43,7 +50,7 @@ class Index extends React.Component{
 
     render(){
 
-        const { popupSwitch, albumsRanking, og } = this.state;
+        const { albumsRanking, current_id, popupSwitch, popupType, og } = this.state;
 
         return(
             <>
@@ -72,19 +79,14 @@ class Index extends React.Component{
                 <Popup 
                     className   = "wrong-popup"
                     popupSwitch = {popupSwitch}
+                    head        = {lang['en']['popup']['head'][popupType]}
                     onCancel    = {() => this.setState({popupSwitch: false})}
                 >
-                    <div className="popup-content">
-                        <p>Member not logged in, please go to login</p>
-                    </div>
-                    <ul className="popup-action">
-                        <li>
-                            <button onClick={() => this.setState({popupSwitch: false})}>Cancel</button>
-                        </li>
-                        <li>
-                            <Link to="/account?back=true">Sign in</Link>
-                        </li>
-                    </ul>
+                    <PopupCommon
+                        current_id  = {current_id}
+                        type        = {popupType}
+                        onCancel    = {() => this.setState({popupSwitch: false})}
+                    />
                 </Popup>
             </>
         );
