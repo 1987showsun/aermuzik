@@ -49,7 +49,7 @@
     "image-webpack-loader": "^6.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.5.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mdbreact": "^4.25.5",
     "mini-css-extract-plugin": "^0.8.0",
     "moment": "^2.24.0",
